@@ -31,6 +31,7 @@ yes | (sudo /sbin/mke2fs -q -I128 -b1024 hd2.img) > /dev/null
 echo Copying data/ to hd.img...
 sh ./tools/open_hdimage.sh
 sudo cp -f -r data/* /mnt/
+sudo cp -f -r apps/data/* /mnt/
 sudo rm -rf `sudo find /mnt -name .svn`
 sudo rm -f `sudo find /mnt -name .directory`
 sh ./tools/close_hdimage.sh
