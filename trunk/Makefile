@@ -1,3 +1,5 @@
+all: build
+
 
 apps_port:
 	@cd apps/porting && sh install_ported.sh all
@@ -16,7 +18,7 @@ system/skernel:
 
 hd.img: newhd
 
-build: system/skernel hd.img
+build: system/skernel
 	@echo updating hd image...
 	@sh tools/open_hdimage.sh
 	@sudo cp -rf system/drivers/built/* /mnt/sys/modules/
@@ -27,3 +29,6 @@ build: system/skernel hd.img
 clean:
 	@make -s -C system clean
 	@rm hd.img hd2.img
+
+test:
+	@qemu -serial stdio -smp 1 -hda hd.img -localtime
