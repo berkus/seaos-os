@@ -1,0 +1,5 @@
+timeout 1
+color light-blue/black light-gray/blue
+title MicroSea
+	kernel /sys/kernel root="/dev/hda1"
+	module /sys/initrd

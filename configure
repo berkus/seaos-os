@@ -1,0 +1,7 @@
+#!/bin/sh
+
+sh tools/update_repos.sh
+
+cd system
+sh ./configure
+cd ..
