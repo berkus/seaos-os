@@ -24,6 +24,7 @@ build: system/skernel
 	@sudo cp -rf system/drivers/built/* /mnt/sys/modules/
 	@sudo cp -rf system/initrd.img /mnt/sys/initrd
 	@sudo cp -rf system/skernel /mnt/sys/kernel
+	@rm system/skernel
 	@sh tools/close_hdimage.sh
 
 clean:
