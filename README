@@ -1,0 +1,9 @@
+build instructions
+------------------
+./configure
+make toolchain
+make apps_port
+make newhd
+make all
+
+then to test in Qemu: make all test
