@@ -13,7 +13,7 @@ if [ -n "${USER:+x}" ]; then
 fi
 
 export CC=gcc
-export CFLAGS="-02 -g"
+export CFLAGS="-O2 -g"
 
 export SHELL=/bin/sh
 export PAGER=less
