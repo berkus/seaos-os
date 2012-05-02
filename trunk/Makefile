@@ -32,4 +32,4 @@ clean:
 	@rm hd.img hd2.img
 
 test:
-	@qemu -serial stdio -smp 1 -hda hd.img -localtime
+	@qemu -serial stdio -smp 1 -hda hd.img -localtime -m 1024
