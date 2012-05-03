@@ -31,5 +31,12 @@ clean:
 	@make -s -C system clean
 	@rm hd.img hd2.img
 
-test:
+test_t:
 	@qemu -serial stdio -smp 1 -hda hd.img -localtime -m 1024
+
+test:
+	@-sudo mkdir /tmp_t 2> /dev/null
+	@sudo mount -t tmpfs -o size=2g tmpfs /tmp_t
+	@cp hd.img /tmp_t/hd.img
+	@qemu -serial stdio -smp 1 -hda /tmp_t/hd.img -localtime -m 1024
+	@sudo umount /tmp_t
