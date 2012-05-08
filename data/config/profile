@@ -2,7 +2,7 @@ export TERM=seaos
 export PS1="[\e[31m\u\e[37m:\e[33m\\w\e[37m]$ "
 export BASH_ENV=/config/bashrc
 export TERM=seaos
-export PATH=/usr/bin:/bin:/usr/sbin:/usr/libexec:/usr/i586-pc-seaos/bin:.
+export PATH=/usr/bin:/bin:/usr/sbin:/usr/libexec:/usr/i586-pc-seaos/bin:.:/usr/libexec/gcc/i586-pc-seaos/4.7.0/
 alias make='make PATH=$PATH'
 alias ls='ls --color=auto'
 export EDITOR=nano
