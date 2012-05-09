@@ -1,7 +1,7 @@
 export TERM=seaos
 export BASH_ENV=/config/bashrc
 export TERM=seaos
-export PATH=/usr/bin:/bin:/usr/sbin:/usr/libexec:/usr/i586-pc-seaos/bin:.:/usr/libexec/gcc/i586-pc-seaos/4.7.0/
+export PATH=/usr/bin:/bin:/usr/sbin:/usr/libexec:/usr/i586-pc-seaos/bin:.
 
 export USER="`id -un`"
 if [ -n "${USER:+x}" ]; then
