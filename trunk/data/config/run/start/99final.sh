@@ -1,5 +1,5 @@
-spawn -a /dev/tty2 -c /bin/login &
-spawn -a /dev/tty8 -c /bin/mon &
+login </dev/tty2 >/dev/tty2 2>/dev/tty2 &
+mon </dev/tty8 >/dev/tty8 2>/dev/tty8 &
 
 if [ -e /tmp ]; then
 	chmod a+w /tmp
