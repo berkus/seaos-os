@@ -14,7 +14,7 @@ toolchain:
 	@cd toolchain && sh install_toolchain.sh
 
 system/skernel:
-	@$(MAKE) -s -C system all
+	@$(MAKE) -j2 -s -C system all
 
 hd.img: newhd
 
