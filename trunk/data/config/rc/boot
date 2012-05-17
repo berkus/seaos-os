@@ -1,0 +1,12 @@
+#!/bin/sh
+
+login </dev/tty1 >/dev/tty1 2>/dev/tty1 &
+login </dev/tty2 >/dev/tty2 2>/dev/tty2 &
+mon </dev/tty8 >/dev/tty8 2>/dev/tty8 &
+
+
+. /config/rc/rand start
+. /config/rc/loop start
+
+/bin/sh -c "exit" & 
+rm /tmp/sh 2>/dev/null >/dev/null
