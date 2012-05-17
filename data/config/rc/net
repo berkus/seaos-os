@@ -1,0 +1,38 @@
+#!/bin/sh
+
+start()
+{
+	lmod /sys/modules/rtl8139
+	lmod /sys/modules/i825xx
+	lmod /sys/modules/ipv4
+}
+
+stop()
+{
+	dmod rtl8139 2> /dev/null
+	dmod i825xx 2> /dev/null
+	dmod ipv4 2> /dev/null
+	dmod ethernet 2> /dev/null
+}
+
+up() 
+{
+	start
+}
+
+down()
+{
+	stop
+}
+
+status()
+{
+	return 2
+}
+
+if [ -z $1 ]; then
+	echo "usage: $0 [start|stop|status|up|down]"
+	return 1
+fi
+
+$1

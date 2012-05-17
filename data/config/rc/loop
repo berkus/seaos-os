@@ -1,0 +1,34 @@
+#!/bin/sh
+
+start()
+{
+	lmod /sys/modules/loop
+}
+
+stop()
+{
+	dmod loop
+}
+
+up() 
+{
+	start
+}
+
+down()
+{
+	stop
+}
+
+status()
+{
+	lsmod | grep "loop" > /dev/null
+	return $?
+}
+
+if [ -z $1 ]; then
+	echo "usage: $0 [start|stop|status|up|down]"
+	return 1
+fi
+
+$1
