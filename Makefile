@@ -10,7 +10,9 @@ apps_seaos:
 newhd:
 	@sh tools/chd.sh
 
-toolchain:
+toolchain: toolchain/built
+
+toolchain/built:
 	@cd toolchain && sh install_toolchain.sh
 
 system/skernel:

@@ -21,6 +21,7 @@ if [ $? != 0 ]; then
 	echo "Error in gcc install"
 	exit 1
 fi
+sudo ln /usr/local/cross-seaos/bin/i586-pc-seaos-ranlib /usr/local/bin/i586-pc-seaos-ranlib
 make compile_library_full
 if [ $? != 0 ]; then
 	echo "Error in library compile"
