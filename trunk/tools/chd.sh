@@ -13,10 +13,10 @@ sudo /sbin/losetup -o1048576 /dev/loop1 hd.img
 echo -n "format..."
 sudo mke2fs -q -I128 -b1024 /dev/loop1  > /dev/null
 echo -n "install grub..."
-sudo mount /dev/loop1 /mnt
-sudo mkdir -p /mnt/boot/grub
-sudo cp -r data/boot/grub/* /mnt/boot/grub/
-sudo umount /mnt
+sudo mount /dev/loop1 /mnt-seaos
+sudo mkdir -p /mnt-seaos/boot/grub
+sudo cp -r data/boot/grub/* /mnt-seaos/boot/grub/
+sudo umount /mnt-seaos
 
 sudo /sbin/losetup -d /dev/loop1
 sudo /sbin/losetup /dev/loop1 hd.img
@@ -30,9 +30,9 @@ dd if=/dev/zero of=hd2.img bs=1024 count=1 seek=100000 2> /dev/null
 yes | (sudo /sbin/mke2fs -q -I128 -b1024 hd2.img) > /dev/null
 echo copying data/ to hd.img...
 sh ./tools/open_hdimage.sh
-sudo cp -f -r data/* /mnt/
+sudo cp -f -r data/* /mnt-seaos/
 echo copying apps/data/ to hd.img...
-sudo cp -f -r apps/data/* /mnt/
-sudo rm -rf `sudo find /mnt -name .svn`
-sudo rm -f `sudo find /mnt -name .directory`
+sudo cp -f -r apps/data/* /mnt-seaos/
+sudo rm -rf `sudo find /mnt-seaos -name .svn`
+sudo rm -f `sudo find /mnt-seaos -name .directory`
 sh ./tools/close_hdimage.sh
