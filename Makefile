@@ -23,9 +23,9 @@ hd.img: newhd
 build: system/skernel
 	@echo updating hd image...
 	@sh tools/open_hdimage.sh
-	@sudo cp -rf system/drivers/built/* /mnt/sys/modules/
-	@sudo cp -rf system/initrd.img /mnt/sys/initrd
-	@sudo cp -rf system/skernel /mnt/sys/kernel
+	@sudo cp -rf system/drivers/built/* /mnt-seaos/sys/modules/
+	@sudo cp -rf system/initrd.img /mnt-seaos/sys/initrd
+	@sudo cp -rf system/skernel /mnt-seaos/sys/kernel
 	@rm system/skernel
 	@sh tools/close_hdimage.sh
 
