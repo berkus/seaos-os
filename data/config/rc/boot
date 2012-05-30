@@ -7,6 +7,3 @@ mon </dev/tty8 >/dev/tty8 2>/dev/tty8 &
 
 . /config/rc/rand start
 . /config/rc/loop start
-
-/bin/sh -c "exit" & 
-rm /tmp/sh 2>/dev/null >/dev/null
