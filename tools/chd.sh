@@ -5,7 +5,7 @@ sudo umount /mnt 2> /dev/null
 rm hd.img 2>/dev/null
 echo -n "processing hd.img..."
 dd if=/dev/zero of=hd.img bs=1024 count=1 2> /dev/null
-dd if=/dev/zero of=hd.img bs=1024 count=1 seek=1000000 2> /dev/null
+dd if=/dev/zero of=hd.img bs=1024 count=1 seek=999999 2> /dev/null
 echo -n "partition..."
 (echo -e "o\nn\np\n1\n2048\n\na\n1\nw\n" | fdisk -u -S63 -H16 hd.img) > /dev/null 2>/dev/null
 
