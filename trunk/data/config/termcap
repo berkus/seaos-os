@@ -22,7 +22,6 @@ seaos|SEAOS System Console:\
 	:cb=\E[1K
 	:cd=\E[J
 	:sf=\ED
-	:sr=\EM:\
 	:st=\EH:\
 	:sc=\E7
 	:rc=\E8:\
