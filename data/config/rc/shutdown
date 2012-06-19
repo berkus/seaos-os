@@ -1,3 +1,4 @@
 #!/bin/sh
 
 . /config/rc/sync down
+# TODO: terminate, kill all processes

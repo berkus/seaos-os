@@ -10,3 +10,5 @@ alias ls='ls --color=auto'
 export EDITOR=nano
 
 export PS1="[\e[31m\u\e[37m:\e[33m\\w\e[37m]$ "
+
+alias less='less -d'
