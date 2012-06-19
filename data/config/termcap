@@ -1,5 +1,5 @@
 # termcap configuration file for seaos 0.2
-
+#:sr=\EM:\
 seaos|SEAOS System Console:\
 	:bs:mi:ms:pt:xn:xo:it#8:\
 	:RA=\E[?7l
