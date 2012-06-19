@@ -3,6 +3,7 @@ build instructions
 ./configure
 make toolchain
 make apps_port
+make man
 make newhd
 make all
 

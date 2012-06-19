@@ -1,6 +1,5 @@
 all: build
 
-
 apps_port:
 	@cd apps/porting && sh install_ported.sh all
 
@@ -17,6 +16,9 @@ toolchain/built:
 
 system/skernel:
 	@$(MAKE) -j2 -s -C system all
+
+man:
+	sh tools/gen_man.sh
 
 hd.img: newhd
 

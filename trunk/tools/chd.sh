@@ -31,8 +31,13 @@ yes | (sudo /sbin/mke2fs -q -I128 -b1024 hd2.img) > /dev/null
 echo copying data/ to hd.img...
 sh ./tools/open_hdimage.sh
 sudo cp -f -r data/* /mnt-seaos/
+sudo cp -f -r doc/man/* /mnt-seaos/usr/man/
 echo copying apps/data/ to hd.img...
 sudo cp -f -r apps/data/* /mnt-seaos/
 sudo rm -rf `sudo find /mnt-seaos -name .svn`
 sudo rm -f `sudo find /mnt-seaos -name .directory`
+sudo rm -rf `sudo find /mnt-seaos -name man`
+echo copying documentation to hd.img...
+sudo mkdir -p /mnt-seaos/usr/man
+sudo cp -rf tools/man_gen_tmp/text/* /mnt-seaos/usr/man/
 sh ./tools/close_hdimage.sh
