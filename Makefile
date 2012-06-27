@@ -23,6 +23,9 @@ man:
 hd.img: newhd
 
 build: system/skernel
+	@-read tmp < build_number && let tmp++ && echo $$tmp > build_number
+	@echo -n "build: "
+	@cat build_number
 	@echo updating hd image...
 	@sh tools/open_hdimage.sh
 	@sudo cp -rf system/drivers/built/* /mnt-seaos/sys/modules/
