@@ -25,7 +25,7 @@ sudo make install
 
 cd ../mpfr-3.1.0
 ./configure --host=i586-pc-seaos --prefix=/usr/local/cross-seaos/i586-pc-seaos
-make
+make CC=i586-pc-seaos-gcc AR=i586-pc-seaos-ar RANLIB=i586-pc-seaos-ranlib
 sudo make install
 
 cd ../mpc-0.9
