@@ -2,12 +2,12 @@
 
 start()
 {
-	lmod /sys/modules/loop
+	modprobe loop
 }
 
 stop()
 {
-	dmod loop
+	modprobe -r loop
 }
 
 up() 
@@ -22,7 +22,7 @@ down()
 
 status()
 {
-	lsmod | grep "loop" > /dev/null
+	modprobe -e loop
 	return $?
 }
 
