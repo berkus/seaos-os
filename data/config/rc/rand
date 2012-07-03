@@ -2,7 +2,7 @@
 
 start()
 {
-	lmod /sys/modules/rand
+	modprobe rand
 	if [ -e /dev/random ]; then
 		ioctl /dev/random 0 8
 	else
@@ -13,7 +13,7 @@ start()
 
 stop()
 {
-	dmod rand
+	modprobe -r rand
 }
 
 up() 
@@ -28,7 +28,7 @@ down()
 
 status()
 {
-	lsmod | grep "rand" > /dev/null
+	modprobe -e rand
 	return $?
 }
 

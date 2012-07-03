@@ -2,12 +2,12 @@
 
 start()
 {
-	lmod /sys/modules/sync
+	modprobe sync
 }
 
 stop()
 {
-	dmod sync
+	modprobe -r sync
 }
 
 up() 
@@ -22,7 +22,7 @@ down()
 
 status()
 {
-	lsmod | grep "sync" >/dev/null
+	modprobe -e sync
 	return $?
 }
 

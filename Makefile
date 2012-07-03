@@ -1,3 +1,5 @@
+include system/make.inc
+
 all: build
 
 apps_port:
@@ -28,7 +30,8 @@ build: system/skernel
 	@cat build_number
 	@echo updating hd image...
 	@sh tools/open_hdimage.sh
-	@sudo cp -rf system/drivers/built/* /mnt-seaos/sys/modules/
+	@sudo mkdir -p /mnt-seaos/sys/modules-${KERNEL_VERSION}/
+	@sudo cp -rf system/drivers/built/* /mnt-seaos/sys/modules-${KERNEL_VERSION}/
 	@sudo cp -rf system/initrd.img /mnt-seaos/sys/initrd
 	@sudo cp -rf system/skernel /mnt-seaos/sys/kernel
 	@rm system/skernel

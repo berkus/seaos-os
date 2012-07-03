@@ -2,17 +2,17 @@
 
 start()
 {
-	lmod /sys/modules/rtl8139
-	lmod /sys/modules/i825xx
-	lmod /sys/modules/ipv4
+	modprobe rtl8139
+	modprobe i825xx
+	modprobe ipv4
 }
 
 stop()
 {
-	dmod rtl8139 2> /dev/null
-	dmod i825xx 2> /dev/null
-	dmod ipv4 2> /dev/null
-	dmod ethernet 2> /dev/null
+	modprobe -r rtl8139 2> /dev/null
+	modprobe -r i825xx 2> /dev/null
+	modprobe -r ipv4 2> /dev/null
+	modprobe -r ethernet 2> /dev/null
 }
 
 up() 
