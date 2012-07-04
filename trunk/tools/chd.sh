@@ -38,9 +38,9 @@ sudo mkdir -p /mnt-seaos/usr/man
 sudo cp -rf tools/man_gen_tmp/text/* /mnt-seaos/usr/man/
 echo copying source code to hd.img...
 sudo mkdir -p /mnt-seaos/usr/src
-sudo cp -rf system /mnt-seaos/usr/src/sys
+sudo cp -rf system /mnt-seaos/usr/src/sea
 sudo cp -rf apps/seaos-util /mnt-seaos/usr/src/seaos-util
-sudo make -C /mnt-seaos/usr/src/sys clean
+sudo make -C /mnt-seaos/usr/src/sea clean
 sudo rm -rf `sudo find /mnt-seaos -name .svn`
 sudo rm -f `sudo find /mnt-seaos -name .directory`
 
