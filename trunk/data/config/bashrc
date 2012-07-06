@@ -12,3 +12,4 @@ export EDITOR=nano
 export PS1="[\e[31m\u\e[37m:\e[33m\\w\e[37m]$ "
 alias lsmod='modprobe -l'
 alias less='less -d'
+alias ps='sps'
