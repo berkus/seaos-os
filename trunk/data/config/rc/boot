@@ -1,6 +1,6 @@
 #!/bin/sh
 
-chown bob /config/bob
+chown -R bob /users/bob
 
 login </dev/tty1 >/dev/tty1 2>/dev/tty1 &
 login </dev/tty2 >/dev/tty2 2>/dev/tty2 &

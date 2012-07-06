@@ -6,7 +6,7 @@ export PATH=/usr/bin:/bin:/usr/sbin:/usr/libexec:/usr/i586-pc-seaos/bin:.
 export USER="`id -un`"
 if [ -n "${USER:+x}" ]; then
 	export LOGNAME=$USER
-	export HOME="/config/$LOGNAME"
+	export HOME="/users/$LOGNAME"
 fi
 
 . /config/bashrc
