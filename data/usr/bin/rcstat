@@ -1,5 +1,5 @@
 #!/bin/sh
-cd /config/rc
+cd /etc/rc
 for i in `ls`; do
 	if [ $i = "boot" ]; then
 		continue
