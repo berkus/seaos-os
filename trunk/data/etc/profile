@@ -1,5 +1,5 @@
 export TERM=seaos
-export BASH_ENV=/config/bashrc
+export BASH_ENV=/etc/bashrc
 export TERM=seaos
 export PATH=/usr/bin:/bin:/usr/sbin:/usr/libexec:/usr/i586-pc-seaos/bin:.
 
@@ -9,4 +9,4 @@ if [ -n "${USER:+x}" ]; then
 	export HOME="/users/$LOGNAME"
 fi
 
-. /config/bashrc
+. /etc/bashrc
