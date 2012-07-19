@@ -41,6 +41,7 @@ sudo mkdir -p /mnt-seaos/usr/src
 sudo cp -rf system /mnt-seaos/usr/src/sea
 sudo cp -rf apps/seaos-util /mnt-seaos/usr/src/seaos-util
 sudo make -C /mnt-seaos/usr/src/sea clean
+sudo rm /mnt-seaos/usr/src/sea/tools/confed /mnt-seaos/usr/src/sea/tools/mkird
 sudo rm -rf `sudo find /mnt-seaos -name .svn`
 sudo rm -f `sudo find /mnt-seaos -name .directory`
 
