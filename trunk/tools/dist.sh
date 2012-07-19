@@ -1,8 +1,10 @@
 #!/bin/sh
+sh tools/build_cd.sh
 mkdir -p tools/seaos-build-`cat build_number`
 mkdir -p tools/seaos-src-`cat build_number`
 echo "packing hard drive..."
 cp hd.img tools/seaos-build-`cat build_number`
+cp tools/cd.iso tools/seaos-build-`cat build_number`
 cd tools
 cp -rf dist/* seaos-build-`cat ../build_number`
 tar -cjf seaos-`cat ../build_number`-build.tar.bz2 seaos-build-`cat ../build_number`

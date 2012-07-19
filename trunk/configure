@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sh tools/update_repos.sh rw goldenpiranha@gmail.com
+sh tools/update_repos.sh
 sudo mkdir /mnt-seaos 2>/dev/null
 cd system
 sh ./configure
