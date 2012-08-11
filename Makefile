@@ -25,7 +25,7 @@ man:
 hd.img: newhd
 
 build: system/skernel
-	@-read tmp < build_number && let tmp++ && echo $$tmp > build_number
+	@sh tools/inc_build.sh
 	@echo -n "build: "
 	@cat build_number
 	@echo updating hd image...
