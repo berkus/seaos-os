@@ -7,12 +7,35 @@ TARGET=i586-pc-seaos
 install_tools:
 	@./install_toolchain.sh
 
-extract:
-	@echo "Extracting tools..."
-	@-tar xjf seaos-cross.tar.bz2 
-	@-tar xjf seaos-cross-lib.tar.bz2 
-	@mkdir build-newlib build-gcc build-binutils
+patch_binutils:
+	wget http://ftp.gnu.org/gnu/binutils/binutils-2.22.tar.bz2
+	tar xjf binutils-2.22.tar.bz2
+	cd binutils-2.22; patch -p1 -i ../binutils-2.22-seaos.patch
+	cp seaos_i386.sh binutils-2.22/ld/emulparams/
+	rm binutils-2.22.tar.bz2
 
+patch_gcc:
+	wget http://ftp.gnu.org/gnu/gcc/gcc-4.7.1/gcc-4.7.1.tar.gz
+	tar xzf gcc-4.7.1.tar.gz
+	cd gcc-4.7.1; patch -p1 -i ../gcc-4.7.1-seaos.patch
+	cp seaos.h gcc-4.7.1/gcc/config/
+	cd gcc-4.7.1/libstdc++-v3; autoconf2.64
+	rm gcc-4.7.1.tar.gz
+
+patch_newlib:
+	@wget ftp://sources.redhat.com/pub/newlib/newlib-1.20.0.tar.gz
+	@tar xfz newlib-1.20.0.tar.gz
+	@cd newlib-1.20.0; patch -p1 -i ../newlib-1.20.0-seaos.patch
+	@cd newlib-1.20.0/newlib/libc/sys; autoconf; cp -rf ../../../../newlib-sys-seaos seaos; autoconf; cd seaos; autoreconf
+	@rm -f newlib-1.20.0.tar.gz
+
+extract:
+	@echo "Downloading and patching tools..."
+	@mkdir build-newlib build-gcc build-binutils
+	make -s patch_newlib
+	make -s patch_gcc
+	make -s patch_binutils
+	
 compile_install_tools1:
 	@echo -n "Configuring binutils... "
 	@cd build-binutils; sh ../binutils-2.22/configure --target=$(TARGET) --prefix=$(PREFIX) --disable-werror
@@ -25,10 +48,10 @@ compile_install_tools1:
 
 compile_install_tools2:
 	@echo -e -n "\nOkay, time to do gcc. Configuring... "
-	@cd build-gcc; sh ../gcc-4.7.0/configure --target=$(TARGET) --prefix=$(PREFIX) --disable-nls --enable-languages=c
+	@cd build-gcc; sh ../gcc-4.7.1/configure --target=$(TARGET) --prefix=$(PREFIX) --disable-nls --enable-languages=c,c++ --enable-lto
 	@echo done!
 	@echo -n "Compiling gcc... "
-	@cd build-gcc; make all-gcc
+	@cd build-gcc; make all-gcc -j2
 	@echo done!
 	@echo -n "Installing gcc... "
 	@cd build-gcc; sudo make install-gcc

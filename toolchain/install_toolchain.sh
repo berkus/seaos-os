@@ -5,6 +5,7 @@ if [ $? = 0 ]; then
 	exit 1
 fi
 sudo rm -rf /usr/local/seaos-cross
+sudo ln -s /usr/local/cross-seaos /usr/local/cross
 echo "Installing toolchain..."
 test -e build-binutils
 if [ $? != 0 ]; then
@@ -34,9 +35,12 @@ if [ $? != 0 ]; then
 fi
 
 cd build-gcc
-make all
-sudo make install
+make all-target-libgcc
+if [ $? != 0 ]; then
+	echo "Error in gcc part 2 install"
+	exit 1
+fi
+sudo make install-target-libgcc
 cd ..
 echo "1" > built
 sh ./install_extras.sh
-
