@@ -7,7 +7,7 @@ echo -n "processing hd.img..."
 dd if=/dev/zero of=hd.img bs=1024 count=1 2> /dev/null
 dd if=/dev/zero of=hd.img bs=1024 count=1 seek=999999 2> /dev/null
 echo -n "partition..."
-(echo -e "o\nn\np\n1\n2048\n\na\n1\nw\n" | fdisk -u -S63 -H16 hd.img) > /dev/null 2>/dev/null
+(echo "o\nn\np\n1\n2048\n\na\n1\nw\n" | fdisk -u -S63 -H16 hd.img) > /dev/null 2>/dev/null
 
 sudo /sbin/losetup -o1048576 /dev/loop1 hd.img
 echo -n "format..."
@@ -19,10 +19,10 @@ sudo cp -r data/boot/grub/* /mnt-seaos/boot/grub/
 sudo umount /mnt-seaos
 
 sudo /sbin/losetup -d /dev/loop1
-sudo /sbin/losetup /dev/loop1 hd.img
+#sudo /sbin/losetup /dev/loop1 hd.img
 
-(echo -e "device (hd0) /dev/loop1\nroot (hd0,0)\nembed /boot/grub/e2fs_stage1_5 (hd0)\ninstall --stage2=data/boot/grub/stage2 /boot/grub/stage1 (hd0) (hd0)1+17 p (hd0,0)/boot/grub/stage2 /boot/grub/menu.lst\nquit" | grub --device-map data/boot/grub/device.map --batch) > /dev/null
-sudo /sbin/losetup -d /dev/loop1
+(echo "device (hd0) hd.img\nroot (hd0,0)\nembed /boot/grub/e2fs_stage1_5 (hd0)\ninstall --stage2=data/boot/grub/stage2 /boot/grub/stage1 (hd0) (hd0)1+17 p (hd0,0)/boot/grub/stage2 /boot/grub/menu.lst\nquit" | grub --device-map data/boot/grub/device.map --batch) > /dev/null
+#sudo /sbin/losetup -d /dev/loop1
 echo ok
 echo processing hd2.img..
 dd if=/dev/zero of=hd2.img bs=1024 count=1 2> /dev/null
