@@ -1,0 +1,344 @@
+diff -crB newlib-1.20.0/config.sub newlib-1.20.0-seaos/config.sub
+*** newlib-1.20.0/config.sub	2011-11-01 17:56:53.000000000 -0700
+--- newlib-1.20.0-seaos/config.sub	2012-01-10 14:43:41.000000000 -0800
+***************
+*** 1333,1339 ****
+  	      | -hpux* | -unos* | -osf* | -luna* | -dgux* | -auroraux* | -solaris* \
+  	      | -sym* | -kopensolaris* \
+  	      | -amigaos* | -amigados* | -msdos* | -newsos* | -unicos* | -aof* \
+! 	      | -aos* | -aros* \
+  	      | -nindy* | -vxsim* | -vxworks* | -ebmon* | -hms* | -mvs* \
+  	      | -clix* | -riscos* | -uniplus* | -iris* | -rtu* | -xenix* \
+  	      | -hiux* | -386bsd* | -knetbsd* | -mirbsd* | -netbsd* \
+--- 1333,1339 ----
+  	      | -hpux* | -unos* | -osf* | -luna* | -dgux* | -auroraux* | -solaris* \
+  	      | -sym* | -kopensolaris* \
+  	      | -amigaos* | -amigados* | -msdos* | -newsos* | -unicos* | -aof* \
+! 	      | -aos* | -aros* | -seaos* \
+  	      | -nindy* | -vxsim* | -vxworks* | -ebmon* | -hms* | -mvs* \
+  	      | -clix* | -riscos* | -uniplus* | -iris* | -rtu* | -xenix* \
+  	      | -hiux* | -386bsd* | -knetbsd* | -mirbsd* | -netbsd* \
+diff -crB newlib-1.20.0/newlib/configure.host newlib-1.20.0-seaos/newlib/configure.host
+*** newlib-1.20.0/newlib/configure.host	2011-11-28 22:33:48.000000000 -0800
+--- newlib-1.20.0-seaos/newlib/configure.host	2012-04-08 13:56:45.000000000 -0700
+***************
+*** 348,353 ****
+--- 348,359 ----
+  	stdio64_dir=stdio64
+  	xdr_dir=xdr
+  	;;
++ i[3-7]86-*-seaos*)
++ 	sys_dir=seaos
++ 	posix_dir=posix
++ 	unix_dir=unix
++ 	newlib_cflags="${newlib_cflags} -D_NO_EXECVE -D_I386MACH_ALLOW_HW_INTERRUPTS -DSIGNAL_PROVIDED -DHAVE_FCNT -DHAVE_OPENDIR -DHAVE_CLOSEDIR -DHAVE_READDIR"
++ 	;;
+    *-*-netware*)
+  	signal_dir=
+  	sys_dir=netware
+diff -crB newlib-1.20.0/newlib/libc/machine/i386/setjmp.S newlib-1.20.0-seaos/newlib/libc/machine/i386/setjmp.S
+*** newlib-1.20.0/newlib/libc/machine/i386/setjmp.S	2010-11-16 09:52:21.000000000 -0800
+--- newlib-1.20.0-seaos/newlib/libc/machine/i386/setjmp.S	2012-04-08 13:53:52.000000000 -0700
+***************
+*** 75,81 ****
+  
+  	movl	24(edi),ebp
+  
+!        __CLI
+  	movl	28(edi),esp
+  	
+  	pushl	32(edi)	
+--- 75,81 ----
+  
+  	movl	24(edi),ebp
+  
+!        
+  	movl	28(edi),esp
+  	
+  	pushl	32(edi)	
+***************
+*** 86,91 ****
+  	movl	12(edi),edx
+  	movl	16(edi),esi
+  	movl	20(edi),edi
+!        __STI
+  
+  	ret
+--- 86,91 ----
+  	movl	12(edi),edx
+  	movl	16(edi),esi
+  	movl	20(edi),edi
+! 
+  
+  	ret
+diff -crB newlib-1.20.0/newlib/libc/stdio/local.h newlib-1.20.0-seaos/newlib/libc/stdio/local.h
+*** newlib-1.20.0/newlib/libc/stdio/local.h	2011-06-13 20:56:05.000000000 -0700
+--- newlib-1.20.0-seaos/newlib/libc/stdio/local.h	2012-04-25 21:59:57.000000000 -0700
+***************
+*** 32,38 ****
+  # include <io.h>
+  #endif
+  
+! 
+  extern u_char *_EXFUN(__sccl, (char *, u_char *fmt));
+  extern int    _EXFUN(__svfscanf_r,(struct _reent *,FILE *, _CONST char *,va_list));
+  extern int    _EXFUN(__ssvfscanf_r,(struct _reent *,FILE *, _CONST char *,va_list));
+--- 32,38 ----
+  # include <io.h>
+  #endif
+  
+! #define u_char unsigned char
+  extern u_char *_EXFUN(__sccl, (char *, u_char *fmt));
+  extern int    _EXFUN(__svfscanf_r,(struct _reent *,FILE *, _CONST char *,va_list));
+  extern int    _EXFUN(__ssvfscanf_r,(struct _reent *,FILE *, _CONST char *,va_list));
+diff -crB newlib-1.20.0/newlib/libc/stdlib/getopt.c newlib-1.20.0-seaos/newlib/libc/stdlib/getopt.c
+*** newlib-1.20.0/newlib/libc/stdlib/getopt.c	2008-03-07 10:16:35.000000000 -0800
+--- newlib-1.20.0-seaos/newlib/libc/stdlib/getopt.c	2012-06-17 20:31:57.000000000 -0700
+***************
+*** 103,112 ****
+  } GETOPT_ORDERING_T;
+  
+  /* globally-defined variables */
+! char *optarg = 0;
+! int optind = 0;
+! int opterr = 1;
+! int optopt = '?';
+  
+  /* static variables */
+  static int optwhere = 0;
+--- 103,112 ----
+  } GETOPT_ORDERING_T;
+  
+  /* globally-defined variables */
+! __attribute__((weak))char *optarg = 0;
+! __attribute__((weak))int optind = 0;
+! __attribute__((weak))int opterr = 1;
+! __attribute__((weak))int optopt = '?';
+  
+  /* static variables */
+  static int optwhere = 0;
+***************
+*** 142,148 ****
+  is_option (char *argv_element, int only)
+  {
+    return ((argv_element == 0)
+! 	  || (argv_element[0] == '-') || (only && argv_element[0] == '+'));
+  }
+  
+  /* read_globals: read the values from the globals into a getopt_data 
+--- 142,148 ----
+  is_option (char *argv_element, int only)
+  {
+    return ((argv_element == 0)
+! 	  || (argv_element[0] == '-' && argv_element[1]) || (only && argv_element[0] == '+'));
+  }
+  
+  /* read_globals: read the values from the globals into a getopt_data 
+***************
+*** 175,180 ****
+--- 175,185 ----
+  		 const struct option *longopts, int *longind, int only,
+  		 struct getopt_data *data)
+  {
++ if(argc == 1) {
++ 	optind = 1;
++ 	data->optind=1;
++ 	return -1;
++ }
+    GETOPT_ORDERING_T ordering = PERMUTE;
+    size_t permute_from = 0;
+    int num_nonopts = 0;
+***************
+*** 207,214 ****
+        shortopts++;
+      }
+    else
+!     ordering = (getenv ("POSIXLY_CORRECT") != 0) ? REQUIRE_ORDER : PERMUTE;
+! 
+    /*
+     * based on ordering, find our next option, if we're at the beginning of
+     * one
+--- 212,218 ----
+        shortopts++;
+      }
+    else
+!     ordering = PERMUTE;
+    /*
+     * based on ordering, find our next option, if we're at the beginning of
+     * one
+***************
+*** 425,431 ****
+    return r;
+  }
+  
+! int
+  getopt_long (int argc, char *const argv[], const char *shortopts,
+  	     const struct option *longopts, int *longind)
+  {
+--- 429,435 ----
+    return r;
+  }
+  
+! __attribute__((weak)) int
+  getopt_long (int argc, char *const argv[], const char *shortopts,
+  	     const struct option *longopts, int *longind)
+  {
+***************
+*** 438,444 ****
+    return r;
+  }
+  
+! int
+  getopt_long_only (int argc, char *const argv[], const char *shortopts,
+  		  const struct option *longopts, int *longind)
+  {
+--- 442,448 ----
+    return r;
+  }
+  
+! __attribute__((weak)) int
+  getopt_long_only (int argc, char *const argv[], const char *shortopts,
+  		  const struct option *longopts, int *longind)
+  {
+diff -crB newlib-1.20.0/newlib/libc/stdlib/mbstowcs.c newlib-1.20.0-seaos/newlib/libc/stdlib/mbstowcs.c
+*** newlib-1.20.0/newlib/libc/stdlib/mbstowcs.c	2004-04-23 14:44:22.000000000 -0700
+--- newlib-1.20.0-seaos/newlib/libc/stdlib/mbstowcs.c	2012-04-25 12:58:11.000000000 -0700
+***************
+*** 59,64 ****
+--- 59,66 ----
+          const char *s _AND
+          size_t n)
+  {
++ 	if(!pwcs)
++ 		return n;
+  #ifdef _MB_CAPABLE
+    mbstate_t state;
+    state.__count = 0;
+diff -crB newlib-1.20.0/newlib/libc/sys/configure newlib-1.20.0-seaos/newlib/libc/sys/configure
+*** newlib-1.20.0/newlib/libc/sys/configure	2011-12-19 14:03:37.000000000 -0800
+--- newlib-1.20.0-seaos/newlib/libc/sys/configure	2012-01-10 16:05:31.000000000 -0800
+***************
+*** 807,813 ****
+  sysvnecv70
+  tic80
+  w65
+! z8ksim'
+  
+  # Initialize some variables set by options.
+  ac_init_help=
+--- 807,814 ----
+  sysvnecv70
+  tic80
+  w65
+! z8ksim
+! seaos'
+  
+  # Initialize some variables set by options.
+  ac_init_help=
+***************
+*** 11435,11441 ****
+    lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
+    lt_status=$lt_dlunknown
+    cat > conftest.$ac_ext <<_LT_EOF
+! #line 11438 "configure"
+  #include "confdefs.h"
+  
+  #if HAVE_DLFCN_H
+--- 11436,11442 ----
+    lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
+    lt_status=$lt_dlunknown
+    cat > conftest.$ac_ext <<_LT_EOF
+! #line 11439 "configure"
+  #include "confdefs.h"
+  
+  #if HAVE_DLFCN_H
+***************
+*** 11541,11547 ****
+    lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
+    lt_status=$lt_dlunknown
+    cat > conftest.$ac_ext <<_LT_EOF
+! #line 11544 "configure"
+  #include "confdefs.h"
+  
+  #if HAVE_DLFCN_H
+--- 11542,11548 ----
+    lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
+    lt_status=$lt_dlunknown
+    cat > conftest.$ac_ext <<_LT_EOF
+! #line 11545 "configure"
+  #include "confdefs.h"
+  
+  #if HAVE_DLFCN_H
+***************
+*** 11832,11837 ****
+--- 11833,11840 ----
+   ;;
+  	z8ksim) subdirs="$subdirs z8ksim"
+   ;;
++ 	seaos) subdirs="$subdirs seaos"
++  ;;
+    esac;
+  fi
+  
+diff -crB newlib-1.20.0/newlib/libc/sys/configure.in newlib-1.20.0-seaos/newlib/libc/sys/configure.in
+*** newlib-1.20.0/newlib/libc/sys/configure.in	2010-02-24 12:59:55.000000000 -0800
+--- newlib-1.20.0-seaos/newlib/libc/sys/configure.in	2012-01-10 13:59:58.000000000 -0800
+***************
+*** 46,51 ****
+--- 46,52 ----
+  	tic80) AC_CONFIG_SUBDIRS(tic80) ;;
+  	w65) AC_CONFIG_SUBDIRS(w65) ;;
+  	z8ksim) AC_CONFIG_SUBDIRS(z8ksim) ;;
++ 	seaos) AC_CONFIG_SUBDIRS(seaos) ;;
+    esac;
+  fi
+  
+diff -crB newlib-1.20.0/newlib/libc/unix/getcwd.c newlib-1.20.0-seaos/newlib/libc/unix/getcwd.c
+*** newlib-1.20.0/newlib/libc/unix/getcwd.c	2008-11-18 13:47:44.000000000 -0800
+--- newlib-1.20.0-seaos/newlib/libc/unix/getcwd.c	2012-01-17 22:04:27.000000000 -0800
+***************
+*** 1,4 ****
+! #ifndef _NO_GETCWD
+  /*
+   * Copyright (c) 1989, 1991 The Regents of the University of California.
+   * All rights reserved.
+--- 1,5 ----
+! //#ifndef _NO_GETCWD
+! #if 0
+  /*
+   * Copyright (c) 1989, 1991 The Regents of the University of California.
+   * All rights reserved.
+***************
+*** 49,55 ****
+             (dp->d_name[1] == '.' && dp->d_name[2] == '\0')))
+  
+  #ifndef _REENT_ONLY
+! 
+  char *
+  getcwd (pt, size)
+       char *pt;
+--- 50,56 ----
+             (dp->d_name[1] == '.' && dp->d_name[2] == '\0')))
+  
+  #ifndef _REENT_ONLY
+! #define __dirfd(dir) (dir)->dd_fd
+  char *
+  getcwd (pt, size)
+       char *pt;
+***************
+*** 162,168 ****
+        *bup = '\0';
+  
+        /* Open and stat parent directory. */
+!       if (!(dir = opendir (up)) || fstat (__dirfd (dir), &s))
+  	goto err;
+  
+        /* Add trailing slash for next directory. */
+--- 163,169 ----
+        *bup = '\0';
+  
+        /* Open and stat parent directory. */
+!       if (!(dir = opendir (up)) || fstat (dir->fd, &s))
+  	goto err;
+  
+        /* Add trailing slash for next directory. */
