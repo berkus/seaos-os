@@ -14,7 +14,6 @@
 # PARTICULAR PURPOSE.
 
 @SET_MAKE@
-
 VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
@@ -37,39 +36,25 @@ host_triplet = @host@
 subdir = .
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/configure $(am__configure_deps) \
-	$(srcdir)/../../../../mkinstalldirs
+	$(srcdir)/../../../../../mkinstalldirs
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/../../../acinclude.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/../../../../acinclude.m4 \
+	$(top_srcdir)/../../../../libtool.m4 \
+	$(top_srcdir)/../../../../ltoptions.m4 \
+	$(top_srcdir)/../../../../ltsugar.m4 \
+	$(top_srcdir)/../../../../ltversion.m4 \
+	$(top_srcdir)/../../../../lt~obsolete.m4 \
 	$(top_srcdir)/configure.in
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
-mkinstalldirs = $(SHELL) $(top_srcdir)/../../../../mkinstalldirs
+mkinstalldirs = $(SHELL) $(top_srcdir)/../../../../../mkinstalldirs
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-LIBRARIES = $(noinst_LIBRARIES)
-ARFLAGS = cru
-lib_a_AR = $(AR) $(ARFLAGS)
-@MAY_SUPPLY_SYSCALLS_TRUE@am__DEPENDENCIES_1 = $(lpfx)syscalls.o \
-@MAY_SUPPLY_SYSCALLS_TRUE@	mmap.o cfspeed.o rand.o rand48.o \
-@MAY_SUPPLY_SYSCALLS_TRUE@	rand_r.o seaos.o termios.o \
-@MAY_SUPPLY_SYSCALLS_TRUE@	pathconf.o dir.o time.o proc.o fs.o \
-@MAY_SUPPLY_SYSCALLS_TRUE@	signal.o remaining.o execl.o \
-@MAY_SUPPLY_SYSCALLS_TRUE@	execle.o execlp.o execv.o execve.o \
-@MAY_SUPPLY_SYSCALLS_TRUE@	execvp.o ftok.o
-am__DEPENDENCIES_2 =
-am__DEPENDENCIES_3 = $(am__DEPENDENCIES_2)
-am_lib_a_OBJECTS =
-lib_a_OBJECTS = $(am_lib_a_OBJECTS)
-DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp =
 am__depfiles_maybe =
-COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
-	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-CCLD = $(CC)
-LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = $(lib_a_SOURCES) $(EXTRA_lib_a_SOURCES)
+SOURCES =
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	html-recursive info-recursive install-data-recursive \
 	install-dvi-recursive install-exec-recursive \
@@ -96,27 +81,48 @@ CC = @CC@
 CCAS = @CCAS@
 CCASFLAGS = @CCASFLAGS@
 CCDEPMODE = @CCDEPMODE@
+CFLAGS = @CFLAGS@
+CPP = @CPP@
+CPPFLAGS = @CPPFLAGS@
+CRT0 = @CRT0@
 CYGPATH_W = @CYGPATH_W@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
+DLLTOOL = @DLLTOOL@
+DSYMUTIL = @DSYMUTIL@
+DUMPBIN = @DUMPBIN@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
+EGREP = @EGREP@
+EXEEXT = @EXEEXT@
+FGREP = @FGREP@
+GREP = @GREP@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
+LIBTOOL = @LIBTOOL@
+LIPO = @LIPO@
+LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
+MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
 NEWLIB_CFLAGS = @NEWLIB_CFLAGS@
+NM = @NM@
+NMEDIT = @NMEDIT@
 NO_INCLUDE_LIST = @NO_INCLUDE_LIST@
+OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
+OTOOL = @OTOOL@
+OTOOL64 = @OTOOL64@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
 PACKAGE_NAME = @PACKAGE_NAME@
@@ -127,7 +133,7 @@ PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 RANLIB = @RANLIB@
 READELF = @READELF@
-SEAOS_MACH_LIB = @SEAOS_MACH_LIB@
+SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
@@ -136,6 +142,9 @@ abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
 abs_top_srcdir = @abs_top_srcdir@
+ac_ct_AR = @ac_ct_AR@
+ac_ct_CC = @ac_ct_CC@
+ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
 aext = @aext@
 am__include = @am__include@
 am__leading_dot = @am__leading_dot@
@@ -190,34 +199,12 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = cygnus
-INCLUDES = $(NEWLIB_CFLAGS) $(CROSS_CFLAGS) $(TARGET_CFLAGS) -I ./include -I ./include/netinet
-SUBDIRS = machine \
-	$(EXTRA_SUBDIRS)\
-	.
-
-SUBLIBS = \
-	$(EXTRA_SUBLIBS) \
-	$(SEAOS_MACH_LIB)
-
-ADD_OBJS = \
-	$(SEAOS_MACH_LIB)
-
-AM_CCASFLAGS = $(INCLUDES)
-noinst_LIBRARIES = lib.a
-@MAY_SUPPLY_SYSCALLS_FALSE@extra_objs = 
-@MAY_SUPPLY_SYSCALLS_TRUE@extra_objs = $(lpfx)syscalls.o mmap.o cfspeed.o rand.o rand48.o rand_r.o seaos.o termios.o pathconf.o dir.o time.o proc.o fs.o signal.o remaining.o execl.o execle.o execlp.o execv.o execve.o execvp.o ftok.o
-lib_a_SOURCES = 
-lib_a_LIBADD = $(extra_objs) $(ADD_OBJS)
-EXTRA_lib_a_SOURCES = cfspeed.c syscalls.c mmap.c rand.c rand48.c rand_r.c seaos.c termios.c pathconf.c dir.c time.c proc.c fs.c crt0.c signal.c remaining.c execl.c execle.c execlp.c execv.c execve.c execvp.c ftok.c
-lib_a_DEPENDENCIES = $(extra_objs) $(ADD_OBJS)
-lib_a_CCASFLAGS = $(AM_CCASFLAGS)
-lib_a_CFLAGS = $(AM_CFLAGS) -I ./include -I ./include/netinet
-ACLOCAL_AMFLAGS = -I ../../..
+SUBDIRS = $(machine_dir) .
+ACLOCAL_AMFLAGS = -I ../../../.. -I ../../../../..
 CONFIG_STATUS_DEPENDENCIES = $(newlib_basedir)/configure.host
 all: all-recursive
 
 .SUFFIXES:
-.SUFFIXES: .c .o .obj
 am--refresh: Makefile
 	@:
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__configure_deps)
@@ -253,162 +240,14 @@ $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	$(am__cd) $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 $(am__aclocal_m4_deps):
 
-clean-noinstLIBRARIES:
-	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
-lib.a: $(lib_a_OBJECTS) $(lib_a_DEPENDENCIES) $(EXTRA_lib_a_DEPENDENCIES) 
-	-rm -f lib.a
-	$(lib_a_AR) lib.a $(lib_a_OBJECTS) $(lib_a_LIBADD)
-	$(RANLIB) lib.a
+mostlyclean-libtool:
+	-rm -f *.lo
 
-mostlyclean-compile:
-	-rm -f *.$(OBJEXT)
+clean-libtool:
+	-rm -rf .libs _libs
 
-distclean-compile:
-	-rm -f *.tab.c
-
-.c.o:
-	$(COMPILE) -c $<
-
-.c.obj:
-	$(COMPILE) -c `$(CYGPATH_W) '$<'`
-
-lib_a-cfspeed.o: cfspeed.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-cfspeed.o `test -f 'cfspeed.c' || echo '$(srcdir)/'`cfspeed.c
-
-lib_a-cfspeed.obj: cfspeed.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-cfspeed.obj `if test -f 'cfspeed.c'; then $(CYGPATH_W) 'cfspeed.c'; else $(CYGPATH_W) '$(srcdir)/cfspeed.c'; fi`
-
-lib_a-syscalls.o: syscalls.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-syscalls.o `test -f 'syscalls.c' || echo '$(srcdir)/'`syscalls.c
-
-lib_a-syscalls.obj: syscalls.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-syscalls.obj `if test -f 'syscalls.c'; then $(CYGPATH_W) 'syscalls.c'; else $(CYGPATH_W) '$(srcdir)/syscalls.c'; fi`
-
-lib_a-mmap.o: mmap.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-mmap.o `test -f 'mmap.c' || echo '$(srcdir)/'`mmap.c
-
-lib_a-mmap.obj: mmap.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-mmap.obj `if test -f 'mmap.c'; then $(CYGPATH_W) 'mmap.c'; else $(CYGPATH_W) '$(srcdir)/mmap.c'; fi`
-
-lib_a-rand.o: rand.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-rand.o `test -f 'rand.c' || echo '$(srcdir)/'`rand.c
-
-lib_a-rand.obj: rand.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-rand.obj `if test -f 'rand.c'; then $(CYGPATH_W) 'rand.c'; else $(CYGPATH_W) '$(srcdir)/rand.c'; fi`
-
-lib_a-rand48.o: rand48.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-rand48.o `test -f 'rand48.c' || echo '$(srcdir)/'`rand48.c
-
-lib_a-rand48.obj: rand48.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-rand48.obj `if test -f 'rand48.c'; then $(CYGPATH_W) 'rand48.c'; else $(CYGPATH_W) '$(srcdir)/rand48.c'; fi`
-
-lib_a-rand_r.o: rand_r.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-rand_r.o `test -f 'rand_r.c' || echo '$(srcdir)/'`rand_r.c
-
-lib_a-rand_r.obj: rand_r.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-rand_r.obj `if test -f 'rand_r.c'; then $(CYGPATH_W) 'rand_r.c'; else $(CYGPATH_W) '$(srcdir)/rand_r.c'; fi`
-
-lib_a-seaos.o: seaos.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-seaos.o `test -f 'seaos.c' || echo '$(srcdir)/'`seaos.c
-
-lib_a-seaos.obj: seaos.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-seaos.obj `if test -f 'seaos.c'; then $(CYGPATH_W) 'seaos.c'; else $(CYGPATH_W) '$(srcdir)/seaos.c'; fi`
-
-lib_a-termios.o: termios.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-termios.o `test -f 'termios.c' || echo '$(srcdir)/'`termios.c
-
-lib_a-termios.obj: termios.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-termios.obj `if test -f 'termios.c'; then $(CYGPATH_W) 'termios.c'; else $(CYGPATH_W) '$(srcdir)/termios.c'; fi`
-
-lib_a-pathconf.o: pathconf.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-pathconf.o `test -f 'pathconf.c' || echo '$(srcdir)/'`pathconf.c
-
-lib_a-pathconf.obj: pathconf.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-pathconf.obj `if test -f 'pathconf.c'; then $(CYGPATH_W) 'pathconf.c'; else $(CYGPATH_W) '$(srcdir)/pathconf.c'; fi`
-
-lib_a-dir.o: dir.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-dir.o `test -f 'dir.c' || echo '$(srcdir)/'`dir.c
-
-lib_a-dir.obj: dir.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-dir.obj `if test -f 'dir.c'; then $(CYGPATH_W) 'dir.c'; else $(CYGPATH_W) '$(srcdir)/dir.c'; fi`
-
-lib_a-time.o: time.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-time.o `test -f 'time.c' || echo '$(srcdir)/'`time.c
-
-lib_a-time.obj: time.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-time.obj `if test -f 'time.c'; then $(CYGPATH_W) 'time.c'; else $(CYGPATH_W) '$(srcdir)/time.c'; fi`
-
-lib_a-proc.o: proc.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-proc.o `test -f 'proc.c' || echo '$(srcdir)/'`proc.c
-
-lib_a-proc.obj: proc.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-proc.obj `if test -f 'proc.c'; then $(CYGPATH_W) 'proc.c'; else $(CYGPATH_W) '$(srcdir)/proc.c'; fi`
-
-lib_a-fs.o: fs.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-fs.o `test -f 'fs.c' || echo '$(srcdir)/'`fs.c
-
-lib_a-fs.obj: fs.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-fs.obj `if test -f 'fs.c'; then $(CYGPATH_W) 'fs.c'; else $(CYGPATH_W) '$(srcdir)/fs.c'; fi`
-
-lib_a-crt0.o: crt0.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-crt0.o `test -f 'crt0.c' || echo '$(srcdir)/'`crt0.c
-
-lib_a-crt0.obj: crt0.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-crt0.obj `if test -f 'crt0.c'; then $(CYGPATH_W) 'crt0.c'; else $(CYGPATH_W) '$(srcdir)/crt0.c'; fi`
-
-lib_a-signal.o: signal.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-signal.o `test -f 'signal.c' || echo '$(srcdir)/'`signal.c
-
-lib_a-signal.obj: signal.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-signal.obj `if test -f 'signal.c'; then $(CYGPATH_W) 'signal.c'; else $(CYGPATH_W) '$(srcdir)/signal.c'; fi`
-
-lib_a-remaining.o: remaining.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-remaining.o `test -f 'remaining.c' || echo '$(srcdir)/'`remaining.c
-
-lib_a-remaining.obj: remaining.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-remaining.obj `if test -f 'remaining.c'; then $(CYGPATH_W) 'remaining.c'; else $(CYGPATH_W) '$(srcdir)/remaining.c'; fi`
-
-lib_a-execl.o: execl.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-execl.o `test -f 'execl.c' || echo '$(srcdir)/'`execl.c
-
-lib_a-execl.obj: execl.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-execl.obj `if test -f 'execl.c'; then $(CYGPATH_W) 'execl.c'; else $(CYGPATH_W) '$(srcdir)/execl.c'; fi`
-
-lib_a-execle.o: execle.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-execle.o `test -f 'execle.c' || echo '$(srcdir)/'`execle.c
-
-lib_a-execle.obj: execle.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-execle.obj `if test -f 'execle.c'; then $(CYGPATH_W) 'execle.c'; else $(CYGPATH_W) '$(srcdir)/execle.c'; fi`
-
-lib_a-execlp.o: execlp.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-execlp.o `test -f 'execlp.c' || echo '$(srcdir)/'`execlp.c
-
-lib_a-execlp.obj: execlp.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-execlp.obj `if test -f 'execlp.c'; then $(CYGPATH_W) 'execlp.c'; else $(CYGPATH_W) '$(srcdir)/execlp.c'; fi`
-
-lib_a-execv.o: execv.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-execv.o `test -f 'execv.c' || echo '$(srcdir)/'`execv.c
-
-lib_a-execv.obj: execv.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-execv.obj `if test -f 'execv.c'; then $(CYGPATH_W) 'execv.c'; else $(CYGPATH_W) '$(srcdir)/execv.c'; fi`
-
-lib_a-execve.o: execve.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-execve.o `test -f 'execve.c' || echo '$(srcdir)/'`execve.c
-
-lib_a-execve.obj: execve.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-execve.obj `if test -f 'execve.c'; then $(CYGPATH_W) 'execve.c'; else $(CYGPATH_W) '$(srcdir)/execve.c'; fi`
-
-lib_a-execvp.o: execvp.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-execvp.o `test -f 'execvp.c' || echo '$(srcdir)/'`execvp.c
-
-lib_a-execvp.obj: execvp.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-execvp.obj `if test -f 'execvp.c'; then $(CYGPATH_W) 'execvp.c'; else $(CYGPATH_W) '$(srcdir)/execvp.c'; fi`
-
-lib_a-ftok.o: ftok.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-ftok.o `test -f 'ftok.c' || echo '$(srcdir)/'`ftok.c
-
-lib_a-ftok.obj: ftok.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-ftok.obj `if test -f 'ftok.c'; then $(CYGPATH_W) 'ftok.c'; else $(CYGPATH_W) '$(srcdir)/ftok.c'; fi`
+distclean-libtool:
+	-rm -f libtool config.lt
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -546,7 +385,7 @@ distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH tags
 check-am:
 check: check-recursive
-all-am: Makefile $(LIBRARIES)
+all-am: Makefile
 installdirs: installdirs-recursive
 installdirs-am:
 install: install-recursive
@@ -581,12 +420,12 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-recursive
 
-clean-am: clean-generic clean-noinstLIBRARIES mostlyclean-am
+clean-am: clean-generic clean-libtool mostlyclean-am
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -f Makefile
-distclean-am: clean-am distclean-compile distclean-generic \
+distclean-am: clean-am distclean-generic distclean-libtool \
 	distclean-tags
 
 dvi: dvi-recursive
@@ -637,7 +476,7 @@ maintainer-clean-am: distclean-am maintainer-clean-generic
 
 mostlyclean: mostlyclean-recursive
 
-mostlyclean-am: mostlyclean-compile mostlyclean-generic
+mostlyclean-am: mostlyclean-generic mostlyclean-libtool
 
 pdf: pdf-recursive
 
@@ -654,19 +493,18 @@ uninstall-am:
 
 .PHONY: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) CTAGS GTAGS \
 	all all-am am--refresh check check-am clean clean-generic \
-	clean-noinstLIBRARIES ctags ctags-recursive distclean \
-	distclean-compile distclean-generic distclean-tags dvi dvi-am \
+	clean-libtool ctags ctags-recursive distclean \
+	distclean-generic distclean-libtool distclean-tags dvi dvi-am \
 	html html-am info info-am install install-am install-data \
 	install-data-am install-dvi install-dvi-am install-exec \
 	install-exec-am install-html install-html-am install-info \
 	install-info-am install-man install-pdf install-pdf-am \
 	install-ps install-ps-am install-strip installcheck \
 	installcheck-am installdirs installdirs-am maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic pdf pdf-am ps ps-am tags tags-recursive \
+	maintainer-clean-generic mostlyclean mostlyclean-generic \
+	mostlyclean-libtool pdf pdf-am ps ps-am tags tags-recursive \
 	uninstall uninstall-am
 
-@MAY_SUPPLY_SYSCALLS_TRUE@all: crt0.o
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -22,17 +22,18 @@ patch_gcc:
 	cd gcc-4.7.1/libstdc++-v3; autoconf2.64
 	rm gcc-4.7.1.tar.gz
 
-patch_newlib:
-	@wget ftp://sources.redhat.com/pub/newlib/newlib-1.20.0.tar.gz
+patch_newlib2:
 	@tar xfz newlib-1.20.0.tar.gz
 	@cd newlib-1.20.0; patch -p1 -i ../newlib-1.20.0-seaos.patch
 	@cd newlib-1.20.0/newlib/libc/sys; autoconf; cp -rf ../../../../newlib-sys-seaos seaos; autoconf; cd seaos; autoreconf
-	@rm -f newlib-1.20.0.tar.gz
+
+patch_newlib:
+	@wget ftp://sources.redhat.com/pub/newlib/newlib-1.20.0.tar.gz
+	@make -s patch_newlib2
 
 extract:
 	@echo "Downloading and patching tools..."
 	@mkdir build-newlib build-gcc build-binutils
-	make -s patch_newlib
 	make -s patch_gcc
 	make -s patch_binutils
 	
@@ -59,6 +60,8 @@ compile_install_tools2:
 	@echo Tools have been installed!
 
 compile_library_full:
+	@rm -rf newlib-1.20.0 build-newlib/*
+	@make -s patch_newlib2
 	@echo -n -e "Configuring newlib... "
 	@cd build-newlib; ../newlib-1.20.0/configure -q --target=$(TARGET) --prefix=$(PREFIX)
 	@echo done!
@@ -66,6 +69,8 @@ compile_library_full:
 
 compile_library:
 	@echo -n "Compiling newlib... "
+	@mkdir -p newlib-1.20.0/newlib/libc/sys/seaos/
+	@cp -rf newlib-sys-seaos/* newlib-1.20.0/newlib/libc/sys/seaos/
 	@cd build-newlib; make
 	@echo done!
 
@@ -81,7 +86,7 @@ install_ncurses:
 	
 install_library:
 	@echo -n "Installing newlib... "
-	@cd build-newlib; su -c "make install"
+	@cd build-newlib; sudo PATH=$$PATH:/usr/local/cross/bin make install
 	@echo done!
 
 clean:
