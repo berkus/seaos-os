@@ -36,41 +36,6 @@ diff -crB newlib-1.20.0/newlib/configure.host newlib-1.20.0-seaos/newlib/configu
     *-*-netware*)
   	signal_dir=
   	sys_dir=netware
-diff -crB newlib-1.20.0/newlib/libc/machine/i386/setjmp.S newlib-1.20.0-seaos/newlib/libc/machine/i386/setjmp.S
-*** newlib-1.20.0/newlib/libc/machine/i386/setjmp.S	2010-11-16 09:52:21.000000000 -0800
---- newlib-1.20.0-seaos/newlib/libc/machine/i386/setjmp.S	2012-04-08 13:53:52.000000000 -0700
-***************
-*** 75,81 ****
-  
-  	movl	24(edi),ebp
-  
-!        __CLI
-  	movl	28(edi),esp
-  	
-  	pushl	32(edi)	
---- 75,81 ----
-  
-  	movl	24(edi),ebp
-  
-!        
-  	movl	28(edi),esp
-  	
-  	pushl	32(edi)	
-***************
-*** 86,91 ****
-  	movl	12(edi),edx
-  	movl	16(edi),esi
-  	movl	20(edi),edi
-!        __STI
-  
-  	ret
---- 86,91 ----
-  	movl	12(edi),edx
-  	movl	16(edi),esi
-  	movl	20(edi),edi
-! 
-  
-  	ret
 diff -crB newlib-1.20.0/newlib/libc/stdio/local.h newlib-1.20.0-seaos/newlib/libc/stdio/local.h
 *** newlib-1.20.0/newlib/libc/stdio/local.h	2011-06-13 20:56:05.000000000 -0700
 --- newlib-1.20.0-seaos/newlib/libc/stdio/local.h	2012-04-25 21:59:57.000000000 -0700
