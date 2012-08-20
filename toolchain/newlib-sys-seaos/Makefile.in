@@ -51,13 +51,14 @@ CONFIG_CLEAN_VPATH_FILES =
 LIBRARIES = $(noinst_LIBRARIES)
 ARFLAGS = cru
 lib_a_AR = $(AR) $(ARFLAGS)
-@MAY_SUPPLY_SYSCALLS_TRUE@am__DEPENDENCIES_1 = $(lpfx)syscalls.o \
-@MAY_SUPPLY_SYSCALLS_TRUE@	mmap.o cfspeed.o rand.o rand48.o \
-@MAY_SUPPLY_SYSCALLS_TRUE@	rand_r.o seaos.o termios.o \
-@MAY_SUPPLY_SYSCALLS_TRUE@	pathconf.o dir.o time.o proc.o fs.o \
-@MAY_SUPPLY_SYSCALLS_TRUE@	signal.o remaining.o execl.o \
+@MAY_SUPPLY_SYSCALLS_TRUE@am__DEPENDENCIES_1 = getopt.o sysc.o mmap.o \
+@MAY_SUPPLY_SYSCALLS_TRUE@	cfspeed.o rand.o rand48.o rand_r.o \
+@MAY_SUPPLY_SYSCALLS_TRUE@	seaos.o termios.o pathconf.o time.o \
+@MAY_SUPPLY_SYSCALLS_TRUE@	proc.o signal.o remaining.o execl.o \
 @MAY_SUPPLY_SYSCALLS_TRUE@	execle.o execlp.o execv.o execve.o \
-@MAY_SUPPLY_SYSCALLS_TRUE@	execvp.o ftok.o
+@MAY_SUPPLY_SYSCALLS_TRUE@	execvp.o ftok.o at.o ch.o dir.o \
+@MAY_SUPPLY_SYSCALLS_TRUE@	link.o openclose.o rw.o special.o \
+@MAY_SUPPLY_SYSCALLS_TRUE@	stat.o sync.o truncate.o
 am__DEPENDENCIES_2 =
 am__DEPENDENCIES_3 = $(am__DEPENDENCIES_2)
 am_lib_a_OBJECTS =
@@ -205,10 +206,30 @@ ADD_OBJS = \
 AM_CCASFLAGS = $(INCLUDES)
 noinst_LIBRARIES = lib.a
 @MAY_SUPPLY_SYSCALLS_FALSE@extra_objs = 
-@MAY_SUPPLY_SYSCALLS_TRUE@extra_objs = $(lpfx)syscalls.o mmap.o cfspeed.o rand.o rand48.o rand_r.o seaos.o termios.o pathconf.o dir.o time.o proc.o fs.o signal.o remaining.o execl.o execle.o execlp.o execv.o execve.o execvp.o ftok.o
+@MAY_SUPPLY_SYSCALLS_TRUE@extra_objs = getopt.o sysc.o \
+@MAY_SUPPLY_SYSCALLS_TRUE@			mmap.o \
+@MAY_SUPPLY_SYSCALLS_TRUE@			cfspeed.o \
+@MAY_SUPPLY_SYSCALLS_TRUE@			rand.o \
+@MAY_SUPPLY_SYSCALLS_TRUE@			rand48.o \
+@MAY_SUPPLY_SYSCALLS_TRUE@			rand_r.o \
+@MAY_SUPPLY_SYSCALLS_TRUE@			seaos.o \
+@MAY_SUPPLY_SYSCALLS_TRUE@			termios.o \
+@MAY_SUPPLY_SYSCALLS_TRUE@			pathconf.o \
+@MAY_SUPPLY_SYSCALLS_TRUE@			time.o \
+@MAY_SUPPLY_SYSCALLS_TRUE@			proc.o \
+@MAY_SUPPLY_SYSCALLS_TRUE@			signal.o \
+@MAY_SUPPLY_SYSCALLS_TRUE@			remaining.o \
+@MAY_SUPPLY_SYSCALLS_TRUE@			execl.o \
+@MAY_SUPPLY_SYSCALLS_TRUE@			execle.o \
+@MAY_SUPPLY_SYSCALLS_TRUE@			execlp.o \
+@MAY_SUPPLY_SYSCALLS_TRUE@			execv.o \
+@MAY_SUPPLY_SYSCALLS_TRUE@			execve.o \
+@MAY_SUPPLY_SYSCALLS_TRUE@			execvp.o \
+@MAY_SUPPLY_SYSCALLS_TRUE@			ftok.o at.o ch.o dir.o link.o openclose.o rw.o special.o stat.o sync.o truncate.o
+
 lib_a_SOURCES = 
 lib_a_LIBADD = $(extra_objs) $(ADD_OBJS)
-EXTRA_lib_a_SOURCES = cfspeed.c syscalls.c mmap.c rand.c rand48.c rand_r.c seaos.c termios.c pathconf.c dir.c time.c proc.c fs.c crt0.c signal.c remaining.c execl.c execle.c execlp.c execv.c execve.c execvp.c ftok.c
+EXTRA_lib_a_SOURCES = ${extra_objs:.o=.c}
 lib_a_DEPENDENCIES = $(extra_objs) $(ADD_OBJS)
 lib_a_CCASFLAGS = $(AM_CCASFLAGS)
 lib_a_CFLAGS = $(AM_CFLAGS) -I ./include -I ./include/netinet
@@ -272,23 +293,29 @@ distclean-compile:
 .c.obj:
 	$(COMPILE) -c `$(CYGPATH_W) '$<'`
 
-lib_a-cfspeed.o: cfspeed.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-cfspeed.o `test -f 'cfspeed.c' || echo '$(srcdir)/'`cfspeed.c
+lib_a-getopt.o: getopt.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-getopt.o `test -f 'getopt.c' || echo '$(srcdir)/'`getopt.c
 
-lib_a-cfspeed.obj: cfspeed.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-cfspeed.obj `if test -f 'cfspeed.c'; then $(CYGPATH_W) 'cfspeed.c'; else $(CYGPATH_W) '$(srcdir)/cfspeed.c'; fi`
+lib_a-getopt.obj: getopt.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-getopt.obj `if test -f 'getopt.c'; then $(CYGPATH_W) 'getopt.c'; else $(CYGPATH_W) '$(srcdir)/getopt.c'; fi`
 
-lib_a-syscalls.o: syscalls.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-syscalls.o `test -f 'syscalls.c' || echo '$(srcdir)/'`syscalls.c
+lib_a-sysc.o: sysc.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-sysc.o `test -f 'sysc.c' || echo '$(srcdir)/'`sysc.c
 
-lib_a-syscalls.obj: syscalls.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-syscalls.obj `if test -f 'syscalls.c'; then $(CYGPATH_W) 'syscalls.c'; else $(CYGPATH_W) '$(srcdir)/syscalls.c'; fi`
+lib_a-sysc.obj: sysc.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-sysc.obj `if test -f 'sysc.c'; then $(CYGPATH_W) 'sysc.c'; else $(CYGPATH_W) '$(srcdir)/sysc.c'; fi`
 
 lib_a-mmap.o: mmap.c
 	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-mmap.o `test -f 'mmap.c' || echo '$(srcdir)/'`mmap.c
 
 lib_a-mmap.obj: mmap.c
 	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-mmap.obj `if test -f 'mmap.c'; then $(CYGPATH_W) 'mmap.c'; else $(CYGPATH_W) '$(srcdir)/mmap.c'; fi`
+
+lib_a-cfspeed.o: cfspeed.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-cfspeed.o `test -f 'cfspeed.c' || echo '$(srcdir)/'`cfspeed.c
+
+lib_a-cfspeed.obj: cfspeed.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-cfspeed.obj `if test -f 'cfspeed.c'; then $(CYGPATH_W) 'cfspeed.c'; else $(CYGPATH_W) '$(srcdir)/cfspeed.c'; fi`
 
 lib_a-rand.o: rand.c
 	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-rand.o `test -f 'rand.c' || echo '$(srcdir)/'`rand.c
@@ -326,12 +353,6 @@ lib_a-pathconf.o: pathconf.c
 lib_a-pathconf.obj: pathconf.c
 	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-pathconf.obj `if test -f 'pathconf.c'; then $(CYGPATH_W) 'pathconf.c'; else $(CYGPATH_W) '$(srcdir)/pathconf.c'; fi`
 
-lib_a-dir.o: dir.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-dir.o `test -f 'dir.c' || echo '$(srcdir)/'`dir.c
-
-lib_a-dir.obj: dir.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-dir.obj `if test -f 'dir.c'; then $(CYGPATH_W) 'dir.c'; else $(CYGPATH_W) '$(srcdir)/dir.c'; fi`
-
 lib_a-time.o: time.c
 	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-time.o `test -f 'time.c' || echo '$(srcdir)/'`time.c
 
@@ -343,18 +364,6 @@ lib_a-proc.o: proc.c
 
 lib_a-proc.obj: proc.c
 	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-proc.obj `if test -f 'proc.c'; then $(CYGPATH_W) 'proc.c'; else $(CYGPATH_W) '$(srcdir)/proc.c'; fi`
-
-lib_a-fs.o: fs.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-fs.o `test -f 'fs.c' || echo '$(srcdir)/'`fs.c
-
-lib_a-fs.obj: fs.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-fs.obj `if test -f 'fs.c'; then $(CYGPATH_W) 'fs.c'; else $(CYGPATH_W) '$(srcdir)/fs.c'; fi`
-
-lib_a-crt0.o: crt0.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-crt0.o `test -f 'crt0.c' || echo '$(srcdir)/'`crt0.c
-
-lib_a-crt0.obj: crt0.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-crt0.obj `if test -f 'crt0.c'; then $(CYGPATH_W) 'crt0.c'; else $(CYGPATH_W) '$(srcdir)/crt0.c'; fi`
 
 lib_a-signal.o: signal.c
 	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-signal.o `test -f 'signal.c' || echo '$(srcdir)/'`signal.c
@@ -409,6 +418,66 @@ lib_a-ftok.o: ftok.c
 
 lib_a-ftok.obj: ftok.c
 	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-ftok.obj `if test -f 'ftok.c'; then $(CYGPATH_W) 'ftok.c'; else $(CYGPATH_W) '$(srcdir)/ftok.c'; fi`
+
+lib_a-at.o: at.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-at.o `test -f 'at.c' || echo '$(srcdir)/'`at.c
+
+lib_a-at.obj: at.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-at.obj `if test -f 'at.c'; then $(CYGPATH_W) 'at.c'; else $(CYGPATH_W) '$(srcdir)/at.c'; fi`
+
+lib_a-ch.o: ch.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-ch.o `test -f 'ch.c' || echo '$(srcdir)/'`ch.c
+
+lib_a-ch.obj: ch.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-ch.obj `if test -f 'ch.c'; then $(CYGPATH_W) 'ch.c'; else $(CYGPATH_W) '$(srcdir)/ch.c'; fi`
+
+lib_a-dir.o: dir.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-dir.o `test -f 'dir.c' || echo '$(srcdir)/'`dir.c
+
+lib_a-dir.obj: dir.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-dir.obj `if test -f 'dir.c'; then $(CYGPATH_W) 'dir.c'; else $(CYGPATH_W) '$(srcdir)/dir.c'; fi`
+
+lib_a-link.o: link.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-link.o `test -f 'link.c' || echo '$(srcdir)/'`link.c
+
+lib_a-link.obj: link.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-link.obj `if test -f 'link.c'; then $(CYGPATH_W) 'link.c'; else $(CYGPATH_W) '$(srcdir)/link.c'; fi`
+
+lib_a-openclose.o: openclose.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-openclose.o `test -f 'openclose.c' || echo '$(srcdir)/'`openclose.c
+
+lib_a-openclose.obj: openclose.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-openclose.obj `if test -f 'openclose.c'; then $(CYGPATH_W) 'openclose.c'; else $(CYGPATH_W) '$(srcdir)/openclose.c'; fi`
+
+lib_a-rw.o: rw.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-rw.o `test -f 'rw.c' || echo '$(srcdir)/'`rw.c
+
+lib_a-rw.obj: rw.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-rw.obj `if test -f 'rw.c'; then $(CYGPATH_W) 'rw.c'; else $(CYGPATH_W) '$(srcdir)/rw.c'; fi`
+
+lib_a-special.o: special.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-special.o `test -f 'special.c' || echo '$(srcdir)/'`special.c
+
+lib_a-special.obj: special.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-special.obj `if test -f 'special.c'; then $(CYGPATH_W) 'special.c'; else $(CYGPATH_W) '$(srcdir)/special.c'; fi`
+
+lib_a-stat.o: stat.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-stat.o `test -f 'stat.c' || echo '$(srcdir)/'`stat.c
+
+lib_a-stat.obj: stat.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-stat.obj `if test -f 'stat.c'; then $(CYGPATH_W) 'stat.c'; else $(CYGPATH_W) '$(srcdir)/stat.c'; fi`
+
+lib_a-sync.o: sync.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-sync.o `test -f 'sync.c' || echo '$(srcdir)/'`sync.c
+
+lib_a-sync.obj: sync.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-sync.obj `if test -f 'sync.c'; then $(CYGPATH_W) 'sync.c'; else $(CYGPATH_W) '$(srcdir)/sync.c'; fi`
+
+lib_a-truncate.o: truncate.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-truncate.o `test -f 'truncate.c' || echo '$(srcdir)/'`truncate.c
+
+lib_a-truncate.obj: truncate.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-truncate.obj `if test -f 'truncate.c'; then $(CYGPATH_W) 'truncate.c'; else $(CYGPATH_W) '$(srcdir)/truncate.c'; fi`
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.

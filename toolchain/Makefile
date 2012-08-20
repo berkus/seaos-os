@@ -25,7 +25,7 @@ patch_gcc:
 patch_newlib2:
 	@tar xfz newlib-1.20.0.tar.gz
 	@cd newlib-1.20.0; patch -p1 -i ../newlib-1.20.0-seaos.patch
-	@cd newlib-1.20.0/newlib/libc/sys; autoconf; cp -rf ../../../../newlib-sys-seaos seaos; autoconf; cd seaos; autoreconf
+	@cd newlib-1.20.0/newlib/libc/sys; autoconf; cp -rf ../../../../newlib-sys-seaos seaos; autoconf; cd seaos; autoreconf; automake
 
 patch_newlib:
 	@wget ftp://sources.redhat.com/pub/newlib/newlib-1.20.0.tar.gz

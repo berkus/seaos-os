@@ -16,6 +16,5 @@ if test -n "${machine_dir}"; then
 fi
 AC_SUBST(SEAOS_MACH_LIB)
 
-
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT

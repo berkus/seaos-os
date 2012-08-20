@@ -14,19 +14,6 @@ int syscall(int num, int a, int b, int c, int d, int e)
 	return x;
 }
 
-int open (
-	const char *buf,
-	int flags,
-	mode_t mode)
-{
-	int ret = syscall(SYS_open, (int)buf, flags, mode, 0, 0);
-	if(ret < 0) {
-		errno = -ret;
-		return -1;
-	}
-	return ret;
-}
-
 long sysconf(int n)
 {
 	long ret = syscall(59, n, 0, 0, 0, 0);
