@@ -1,7 +1,81 @@
+#include "ksyscall.h"
+#include <sys/types.h>
+#include <sys/statfs.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/stat.h>
 #include <stdlib.h>
 #include "./sys/dirent.h"
 #include <errno.h>
-#include <sys/stat.h>
+#include <fcntl.h>
+int mkdir(const char *argv, mode_t mode)
+{
+	char tmp[strlen(argv) + 2];
+	memset(tmp, 0, strlen(argv) + 2);
+	strcpy(tmp, argv);
+	strcat(tmp, "/");
+	int ret = open(tmp, O_CREAT | O_EXCL, mode);
+	if(ret < 0)
+		return -1;
+	else
+		close(ret);
+	return 0;
+}
+
+int chdir(const char *path)
+{
+	int ret = syscall(40, path, 0, 0, 0,0);
+	if(ret < 0)
+	{
+		errno = -ret;
+		return -1;
+	}
+	return ret;
+}
+
+
+/* Get the pathname of the current working directory,
+   and put it in SIZE bytes of BUF.  Returns NULL if the
+   directory couldn't be determined or SIZE was too small.
+   If successful, returns BUF.  In GNU, if BUF is NULL,
+   an array is allocated with `malloc'; the array is SIZE
+   bytes long, unless SIZE <= 0, in which case it is as
+   big as necessary.  */
+#include <sys/dirent.h>
+__attribute__ ((weak)) char *getcwd (char *buf, size_t size)
+{
+	errno = 0;
+	if(buf && !size) {
+		errno = EINVAL;
+		return 0;
+	}
+	
+	if(!buf) {
+		if(!size)size = 1024;
+		buf = (char *)malloc(size);
+	}
+	
+	memset(buf, 0, size);
+	
+	int ret = syscall(36, buf, size, 0, 0, 0);
+	if(ret < 0) {
+		errno = -ret;
+		return 0;
+	}
+	return buf;
+}
+
+
+int rmdir(const char *b)
+{
+	int ret= syscall(53,(int) b, 0, 0, 0, 0);
+	if(ret < 0)
+	{
+		errno = -ret;
+		return -1;
+	}
+	return ret;
+}
 
 int getdents (int fd, void *dp, int count)
 {
