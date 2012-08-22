@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <sys/time.h>
 struct kstat {
 	unsigned short	st_dev;
 	unsigned long	st_ino;
@@ -22,6 +23,37 @@ struct kstat {
   long		st_spare2;
   time_t	st_ctime;
 };
+
+int mem_stat(struct mem_stat *s)
+{
+	int ret = syscall(SYS_MEMSTAT, (int)s, 0, 0, 0, 0);
+	if(ret < 0) {
+		errno = -ret;
+		return -1;
+	}
+	return ret;
+}
+
+int task_stat(unsigned p, struct task_stat *s)
+{
+	int ret = syscall(SYS_TSTAT, (int)p, (int)s, 0, 0, 0);
+	if(ret < 0) {
+		errno=-ret;
+		return -1;
+	}
+	return ret;
+}
+
+int select (int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
+            struct timeval *timeout)
+{
+  int ret = syscall(56, n, readfds, writefds, exceptfds, timeout);
+  if(ret < 0) {
+	  errno = -ret;
+	  return -1;
+  }
+  return ret;
+}
 
 int get_nodestr(char *path, char *node)
 {

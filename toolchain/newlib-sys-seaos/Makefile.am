@@ -25,7 +25,18 @@ extra_objs = getopt.o sysc.o \
 			time.o \
 			proc.o \
 			signal.o \
-			remaining.o \
+			log.o \
+			mount.o \
+			module.o \
+			id.o \
+			fork.o \
+			exit.o \
+			group.o \
+			srv.o \
+			nice.o \
+			ctl.o \
+			ctype.o \
+			daemon.o \
 			execl.o \
 			execle.o \
 			execlp.o \
