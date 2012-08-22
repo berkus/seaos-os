@@ -19,6 +19,8 @@
 
 #include <errno.h>
 #include <signal.h>
+#include "ksyscall.h"
+
 #define sigaddset(what,sig) (*(what) |= (1<<(sig)), 0)
 #define sigdelset(what,sig) (*(what) &= ~(1<<(sig)), 0)
 #define sigemptyset(what)   (*(what) = 0, 0)
@@ -73,5 +75,36 @@ int pause()
 {
 	syscall(12, getpid(), SIGISLEEP, 0, 0, 0);
 	return 0;
+}
+
+int kill(
+        int pid,
+        int sig)
+{
+  int ret = syscall(SYS_kill, pid, sig, 0, 0, 0);
+  if(ret < 0) {
+	  errno = -ret;
+	  return -1;
+  }
+  return ret;
+}
+
+int sigaction(int sig, const struct sigaction *act, struct sigaction *oact) {
+	int ret = syscall(98, sig, (int)act, (int)oact, 0, 0);
+	if(ret < 0) {
+		errno = -ret;
+		return -1;
+	}
+	return ret;
+}
+
+int sigsetjmp(void *a, int x)
+{
+	return setjmp(a);
+}
+
+int siglongjmp(void *a, int x)
+{
+	return longjmp(a);
 }
 

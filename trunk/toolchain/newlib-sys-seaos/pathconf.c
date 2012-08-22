@@ -11,10 +11,35 @@
  #include "ksyscall.h"
  #include <stdio.h>
  #include "sys/dirent.h"
-
+#include <sys/utsname.h>
 #define LINUX_LINK_MAX	127
 
 static long int posix_pathconf (const char *path, int name);
+
+int uname(struct utsname *name)
+{
+	int ret = syscall(116, (int)name, 0, 0, 0, 0);
+	if(ret < 0) {
+		errno = -ret;
+		return -1;
+	}
+	return ret;
+}
+
+long sysconf(int n)
+{
+	long ret = syscall(59, n, 0, 0, 0, 0);
+	if(ret < 0) {
+		errno = EINVAL;
+		return -1;
+	}
+	return ret;
+}
+
+int getdtablesize()
+{
+	return 10000000;
+}
 
 
 /* Get file-specific information about descriptor FD.  */
