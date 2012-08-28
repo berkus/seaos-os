@@ -9,7 +9,7 @@ apps_seaos:
 	@cd apps/porting && sh install_ported.sh seaos-util
 
 newhd:
-	@sh tools/chd.sh
+	@zsh tools/chd.sh
 
 toolchain: toolchain/built
 
@@ -17,7 +17,7 @@ toolchain/built:
 	@cd toolchain && sh install_toolchain.sh
 
 system/skernel:
-	@$(MAKE) -j2 -s -C system all
+	@PATH=$$PATH:/usr/local/cross/bin $(MAKE) -j2 -s -C system all
 
 man:
 	sh tools/gen_man.sh
@@ -42,11 +42,11 @@ clean:
 	@rm hd.img hd2.img
 
 test_t:
-	@qemu-system-i386 -serial stdio -smp 1 -hda hd.img -localtime -m 1024 -boot=disk
+	@qemu-system-i386 -serial stdio -smp 1 -drive file=hd.img,if=ide  -localtime -m 1024 -boot=disk
 
 test:
 	@-sudo mkdir /tmp_t 2> /dev/null
 	@sudo mount -t tmpfs -o size=2g tmpfs /tmp_t
 	@cp hd.img /tmp_t/hd.img
-	@qemu-system-i386 -serial stdio -smp 1 -hda /tmp_t/hd.img -localtime -m 1024 -boot a
+	@qemu-system-i386 -serial stdio -smp 1 -drive file=/tmp_t/hd.img,if=ide -localtime -m 1024 -boot a
 	@sudo umount /tmp_t

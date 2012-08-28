@@ -7,7 +7,7 @@ echo -n "processing hd.img..."
 dd if=/dev/zero of=hd.img bs=1024 count=1 2> /dev/null
 dd if=/dev/zero of=hd.img bs=1024 count=1 seek=999999 2> /dev/null
 echo -n "partition..."
-(echo "o\nn\np\n1\n2048\n\na\n1\nw\n" | fdisk -u -S63 -H16 hd.img) > /dev/null 2>/dev/null
+(echo "o\nn\np\n1\n2048\n\na\n1\nw\n" | fdisk -u -S63 -H16 hd.img) &>/dev/null
 
 sudo /sbin/losetup -o1048576 /dev/loop1 hd.img
 echo -n "format..."
