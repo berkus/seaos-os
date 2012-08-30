@@ -17,11 +17,11 @@ struct kstat {
 	unsigned long	st_size;
 	unsigned long	st_blksize;
 	unsigned long	st_blocks;
-		time_t	st_atime;
-  long		st_spare1;
-  time_t	st_mtime;
-  long		st_spare2;
-  time_t	st_ctime;
+	time_t			st_atime;
+	long			st_spare1;
+	time_t			st_mtime;
+	long			st_spare2;
+	time_t			st_ctime;
 };
 
 int mem_stat(struct mem_stat *s)
@@ -93,9 +93,25 @@ int isatty(int fd)
 	return ret;
 }
 */
-int stat(
-	const char *path,
-	 struct stat *buf)
+
+void __internal_convert_kstat_stat(struct kstat *k, struct stat *buf)
+{
+	buf->st_dev = k->st_dev;
+	buf->st_ino = k->st_ino;
+	buf->st_mode = k->st_mode;
+	buf->st_nlink = k->st_nlink;
+	buf->st_uid = k->st_uid;
+	buf->st_gid = k->st_gid;
+	buf->st_rdev = k->st_rdev;
+	buf->st_size = k->st_size;
+	buf->st_blksize = k->st_blksize;
+	buf->st_blocks = k->st_blocks;
+	buf->st_atime = k->st_atime;
+	buf->st_mtime = k->st_mtime;
+	buf->st_ctime = k->st_ctime;
+}
+
+int stat(const char *path, struct stat *buf)
 {
 	
 	struct kstat k;
@@ -105,21 +121,8 @@ int stat(
 		errno = -ret;
 		return -1;
 	}
-	buf->st_dev = k.st_dev;
-	buf->st_ino = k.st_ino;
-	buf->st_mode = k.st_mode;
-	buf->st_nlink = k.st_nlink;
-	buf->st_uid = k.st_uid;
-	buf->st_gid = k.st_gid;
-	buf->st_rdev = k.st_rdev;
-	buf->st_size = k.st_size;
-	buf->st_blksize = k.st_blksize;
-	buf->st_blocks = k.st_blocks;
-	buf->st_atime = k.st_atime;
-	buf->st_mtime = k.st_mtime;
-	buf->st_ctime = k.st_ctime;
+	__internal_convert_kstat_stat(&k, buf);
 	return ret;
-	
 }
 
 int lstat(
@@ -133,21 +136,8 @@ int lstat(
 		errno = -ret;
 		return -1;
 	}
-	buf->st_dev = k.st_dev;
-	buf->st_ino = k.st_ino;
-	buf->st_mode = k.st_mode;
-	buf->st_nlink = k.st_nlink;
-	buf->st_uid = k.st_uid;
-	buf->st_gid = k.st_gid;
-	buf->st_rdev = k.st_rdev;
-	buf->st_size = k.st_size;
-	buf->st_blksize = k.st_blksize;
-	buf->st_blocks = k.st_blocks;
-	buf->st_atime = k.st_atime;
-	buf->st_mtime = k.st_mtime;
-	buf->st_ctime = k.st_ctime;
+	__internal_convert_kstat_stat(&k, buf);
 	return ret;
-	
 }
 
 int statfs(const char *path, struct statfs *buf)
@@ -192,18 +182,6 @@ int fstat(int fd, struct stat *buf)
 		errno = -ret;
 		return -1;
 	}
-	buf->st_dev = k.st_dev;
-	buf->st_ino = k.st_ino;
-	buf->st_mode = k.st_mode;
-	buf->st_nlink = k.st_nlink;
-	buf->st_uid = k.st_uid;
-	buf->st_gid = k.st_gid;
-	buf->st_rdev = k.st_rdev;
-	buf->st_size = k.st_size;
-	buf->st_blksize = k.st_blksize;
-	buf->st_blocks = k.st_blocks;
-	buf->st_atime = k.st_atime;
-	buf->st_mtime = k.st_mtime;
-	buf->st_ctime = k.st_ctime;
+	__internal_convert_kstat_stat(&k, buf);
 	return ret;
 }

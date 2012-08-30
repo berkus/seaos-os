@@ -24,8 +24,8 @@ make
 sudo make install
 
 cd ../mpfr-3.1.0
-./configure --host=i586-pc-seaos --prefix=/usr/local/cross-seaos/i586-pc-seaos
-make CC=i586-pc-seaos-gcc AR=i586-pc-seaos-ar RANLIB=i586-pc-seaos-ranlib
+./configure --host=i586-pc-seaos --prefix=/usr/local/cross-seaos/i586-pc-seaos CFLAGS='-fno-stack-protector'
+make CC=i586-pc-seaos-gcc AR=i586-pc-seaos-ar RANLIB=i586-pc-seaos-ranlib CFLAGS='-fno-stack-protector'
 sudo make install
 
 cd ../mpc-0.9

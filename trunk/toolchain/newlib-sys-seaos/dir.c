@@ -8,6 +8,14 @@
 #include "./sys/dirent.h"
 #include <errno.h>
 #include <fcntl.h>
+#include <limits.h>
+#include <sys/times.h>
+#include <sys/time.h>
+#include <time.h>
+#include <stddef.h>
+#include "linux_fsinfo.h"
+#include "ksyscall.h"
+#include <sys/utsname.h>
 int mkdir(const char *argv, mode_t mode)
 {
 	char tmp[strlen(argv) + 2];
@@ -21,18 +29,6 @@ int mkdir(const char *argv, mode_t mode)
 		close(ret);
 	return 0;
 }
-
-int chdir(const char *path)
-{
-	int ret = syscall(40, path, 0, 0, 0,0);
-	if(ret < 0)
-	{
-		errno = -ret;
-		return -1;
-	}
-	return ret;
-}
-
 
 /* Get the pathname of the current working directory,
    and put it in SIZE bytes of BUF.  Returns NULL if the
@@ -94,8 +90,8 @@ DIR *opendir(const char *name)
 	if(*name == '/')
 		strcpy(d->name, name);
 	else {
-		char *tmp = malloc(128);
-		sprintf(d->name, "%s/%s", getcwd(tmp, 128), name);
+		char *tmp = malloc(1024);
+		sprintf(d->name, "%s/%s", getcwd(tmp, 1024), name);
 		free(tmp);
 	}
 	d->pos=0;
@@ -107,22 +103,7 @@ DIR *opendir(const char *name)
 	d->fd=res;
 	return d;
 }
-/*
-DIR *fdopendir(int fd)
-{
-	DIR *d = (DIR *)malloc(sizeof(DIR));
-	int ret;
-	if((ret=syscall(37, fd, d->name, 0, 0, 0)) < 0)
-	{
-		errno = -ret;
-		free(d);
-		return 0;
-	}
-	d->pos=0;
-	d->fd=fd;
-	return d;
-}
-*/
+
 /* This really needs cleaning up */
 struct dirent *readdir(DIR *d)
 {
@@ -132,8 +113,8 @@ struct dirent *readdir(DIR *d)
 		errno = EBADF;
 		return 0;
 	}
-	char name[128];
-	memset(name, 0, 128);
+	char name[NAME_MAX+1];
+	memset(name, 0, NAME_MAX+1);
 	struct stat statb;
 	int ret = syscall(97, d->name, d->pos, name, &statb, 0);
 	if(ret < 0) {

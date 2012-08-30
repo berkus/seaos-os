@@ -13,7 +13,7 @@ int ftruncate(int f, off_t len)
 		errno = -ret;
 		return -1;
 	}
-	return 0;
+	return ret;
 }
 
 int truncate(const char *p, off_t len)
@@ -21,6 +21,8 @@ int truncate(const char *p, off_t len)
 	int f = open(p, O_RDWR, 0);
 	if(f < 0) return -1;
 	int res =  ftruncate(f, len);
+	int _e = errno;
 	close(f);
+	errno = _e;
 	return res;
 }

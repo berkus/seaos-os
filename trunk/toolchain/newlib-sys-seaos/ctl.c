@@ -13,6 +13,8 @@
 #include "sys/dirent.h"
 #include <stdarg.h>
 
+/* okay, so we don't _actually_ support the va_args thing here,
+ * but we pretend to to squelch errors */
 int fcntl(int des, int cmd, ...)
 {
 	va_list args;

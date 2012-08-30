@@ -27,11 +27,11 @@ int open (const char *buf, int flags, ...)
 int close (int fd)
 {
 	int ret = syscall(SYS_close, fd, 0, 0, 0, 0);
-	if(ret < 0)
+	if(ret < 0) {
 		errno=-ret;
-	else
-		return 0;
-	return -1;
+		return -1;
+	}
+	return ret;
 }
 
 int do_dup(int i, int f)

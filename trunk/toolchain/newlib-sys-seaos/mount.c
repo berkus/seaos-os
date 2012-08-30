@@ -8,8 +8,10 @@
 int sea_mount_filesystem(char *node, char *dir, char *fsname, char *opts, int flags)
 {
 	int ret = syscall(SYS_MOUNT2, node, dir, fsname, opts, flags);
-	if(ret < 0)
+	if(ret < 0) {
 		errno = -ret;
+		return -1;
+	}
 	return ret;
 }
 

@@ -34,5 +34,5 @@ int getpriority(int which, int id)
 		errno = -ret;
 		return -1;
 	}
-	return 0;
+	return ret;
 }

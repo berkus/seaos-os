@@ -5,8 +5,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-int unlink(
-	const char * path)
+int unlink(const char * path)
 {
 	int ret = syscall(SYS_unlink, (int)path, 0, 0, 0, 0);
 	if(ret < 0)
