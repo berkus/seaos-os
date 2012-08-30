@@ -11,15 +11,9 @@ int makedev(int maj, int min)
 	return GETDEV(maj, min);
 }
 
-
-int
-mkfifo (path, mode)
-     const char *path;
-     mode_t mode;
+int mkfifo (const char *path, mode_t mode)
 {
-
-  return (mknod (path, ((mode&0xFFF) | S_IFIFO), 0));
-
+	return (mknod (path, ((mode&0xFFF) | S_IFIFO), 0));
 }
 
 int mknod(const char *path, mode_t m, dev_t d)

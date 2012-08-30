@@ -20,6 +20,8 @@
 /* Modified by Jeff Johnston, May 27, 2002 to remove kernel hack
    as we simply ignore a cfisetspeed of 0 instead of treating it specially */
 
+/* Modified by Daniel Bittman, August 2012, for seaos */
+
 #include <stddef.h>
 #include <errno.h>
 #include <termios.h>
@@ -32,9 +34,15 @@ cfgetospeed (termios_p)
   return termios_p->c_cflag & (CBAUD | CBAUDEX);
 }
 
-void cfmakeraw(const struct termios *termios_p)
+void cfmakeraw(struct termios *termios_p)
 {
-	
+	/* TODO: Do we need to tell the system about this here? */
+	termios_p->c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP
+                | INLCR | IGNCR | ICRNL | IXON);
+	termios_p->c_oflag &= ~OPOST;
+	termios_p->c_lflag &= ~(ECHO | ECHONL | ICANON | ISIG | IEXTEN);
+	termios_p->c_cflag &= ~(CSIZE | PARENB);
+	termios_p->c_cflag |= CS8;
 }
 
 /* Return the input baud rate stored in *TERMIOS_P.

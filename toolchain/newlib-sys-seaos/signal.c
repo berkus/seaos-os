@@ -34,32 +34,26 @@ typedef void (*_sig_func_ptr) (int);
 typedef _sig_func_ptr __sighandler_t;
 /* Set the handler for the signal SIG to HANDLER,
    returning the old handler, or SIG_ERR on error.  */
-__sighandler_t
-signal (sig, handler)
-     int sig;
-     __sighandler_t handler;
+__sighandler_t signal (int sig, __sighandler_t handler)
 {
-  struct sigaction act, oact;
+	struct sigaction act, oact;
 
-  /* Check signal extents to protect __sigismember.  */
-  if (handler == SIG_ERR || sig < 1 || sig >= NSIG)
-    {
-      errno = (EINVAL);
-      return SIG_ERR;
-    }
+	/* Check signal extents to protect __sigismember.  */
+	if (handler == SIG_ERR || sig < 1 || sig >= NSIG)
+	{
+		errno = (EINVAL);
+		return SIG_ERR;
+	}
 
-  act.sa_handler = handler;
-  if (sigemptyset (&act.sa_mask) < 0
-      || sigaddset (&act.sa_mask, sig) < 0)
-    return SIG_ERR;
-  act.sa_flags = sigismember (&_sigintr, sig) ? 0 : SA_RESTART;
-  if (sigaction (sig, &act, &oact) < 0)
-    return SIG_ERR;
+	act.sa_handler = handler;
+	if (sigemptyset (&act.sa_mask) < 0 || sigaddset (&act.sa_mask, sig) < 0)
+		return SIG_ERR;
+	act.sa_flags = sigismember (&_sigintr, sig) ? 0 : SA_RESTART;
+	if (sigaction (sig, &act, &oact) < 0)
+		return SIG_ERR;
 
-  return oact.sa_handler;
+	return oact.sa_handler;
 }
-
-
 
 int sigprocmask(int how, const sigset_t *set, sigset_t *oset)
 {
@@ -77,9 +71,7 @@ int pause()
 	return 0;
 }
 
-int kill(
-        int pid,
-        int sig)
+int kill(int pid, int sig)
 {
   int ret = syscall(SYS_kill, pid, sig, 0, 0, 0);
   if(ret < 0) {

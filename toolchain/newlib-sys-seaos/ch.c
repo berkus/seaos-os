@@ -5,21 +5,30 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-int fchdir(int filedes)
+
+/* [f]chdir - change the working directory.*/
+int chdir(const char *path)
 {
-	char *name = (char *)malloc(1024);
-	int ret;
-	ret = syscall(37, filedes, name, 0, 0, 0);
+	int ret = syscall(40, path, 0, 0, 0,0);
 	if(ret < 0)
 	{
-		free(name);
-		errno=-ret;
+		errno = -ret;
 		return -1;
 	}
-	ret = chdir(name);
-	free(name);
 	return ret;
 }
+
+int fchdir(int fd)
+{
+	int ret = syscall(40, 0, fd, 0, 0, 0);
+	if(ret < 0)
+	{
+		errno = -ret;
+		return -1;
+	}
+	return ret;
+}
+
 int chmod(const char *p, mode_t m)
 {
 	int ret=syscall(100, (int)p, -1, m, 0, 0);
@@ -33,7 +42,7 @@ int chmod(const char *p, mode_t m)
 
 int fchmod(int fd, mode_t m)
 {
-	int ret=syscall(100, (int)0, fd, m, 0, 0);
+	int ret=syscall(100, 0, fd, m, 0, 0);
 	if(ret < 0)
 	{
 		errno = -ret;

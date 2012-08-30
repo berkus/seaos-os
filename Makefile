@@ -48,5 +48,5 @@ test:
 	@-sudo mkdir /tmp_t 2> /dev/null
 	@sudo mount -t tmpfs -o size=2g tmpfs /tmp_t
 	@cp hd.img /tmp_t/hd.img
-	@qemu-system-i386 -serial stdio -smp 1 -drive file=/tmp_t/hd.img,if=ide -localtime -m 1024 -boot a
+	@qemu-system-i386 -serial stdio -smp 1 -drive file=/tmp_t/hd.img,if=ide,cache=unsafe,media=disk -localtime -m 1024 -boot a
 	@sudo umount /tmp_t

@@ -1,6 +1,7 @@
-
+/* ....... */
 int rpmatch(char *i)
 {
+	if(!i) return -1;
 	if(*(i) == 'y' || *(i) == 'Y')
 		return 1;
 	if((*(i) == 'o' || *i == 'O') && (*i=='k' || *i=='K'))
@@ -21,6 +22,7 @@ char *gai_strerror(int code)
 #define _C	040
 #define _X	0100
 #define	_B	0200
+
 #define _CTYPE_DATA_0_127 \
 _C,	_C,	_C,	_C,	_C,	_C,	_C,	_C, \
 _C,	_C|_S, _C|_S, _C|_S,	_C|_S,	_C|_S,	_C,	_C, \

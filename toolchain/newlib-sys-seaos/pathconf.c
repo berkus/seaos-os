@@ -60,9 +60,11 @@ pathconf (path, name)
 long fpathconf(int fd, int m)
 {
 	char *name = (char *)malloc(1024);
-	syscall(37, fd, name, 0, 0, 0);
+	syscall(37, fd, name, 1024, 0, 0);
 	int ret = pathconf(name, m);
+	int e = errno;
 	free(name);
+	if(ret == -1) errno = e;
 	return ret;
 }
 /* Get file-specific information about PATH.  */
@@ -104,32 +106,7 @@ posix_pathconf (const char *path, int name)
 
     case _PC_NAME_MAX:
 #ifdef	NAME_MAX
-      {
-	struct statfs buf;
-	int save_errno = errno;
-
-	if (__statfs (path, &buf) < 0)
-	  {
-	    if (errno == ENOSYS)
-	      {
-		errno = save_errno;
 		return NAME_MAX;
-	      }
-	    return -1;
-	  }
-	else
-	  {
-#ifdef _STATFS_F_NAMELEN
-	    return buf.f_namelen;
-#else
-# ifdef _STATFS_F_NAME_MAX
-	    return buf.f_name_max;
-# else
-	    return NAME_MAX;
-# endif
-#endif
-	  }
-      }
 #else
       return -1;
 #endif
