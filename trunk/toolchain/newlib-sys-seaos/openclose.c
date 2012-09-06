@@ -48,7 +48,6 @@ int do_dup(int i, int f)
 int dup2 (int fd1, int fd2)
 {
 	int saved_errno, r;
-
 	/* If FD1 is not a valid file descriptor, then return immediately with
 	   an error. */
 	if (fcntl (fd1, F_GETFL, 0) == -1)

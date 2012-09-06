@@ -73,12 +73,12 @@ int pause()
 
 int kill(int pid, int sig)
 {
-  int ret = syscall(SYS_kill, pid, sig, 0, 0, 0);
-  if(ret < 0) {
-	  errno = -ret;
-	  return -1;
-  }
-  return ret;
+	int ret = syscall(SYS_kill, pid, sig, 0, 0, 0);
+	if(ret < 0) {
+		errno = -ret;
+		return -1;
+	}
+	return ret;
 }
 
 int sigaction(int sig, const struct sigaction *act, struct sigaction *oact) {
@@ -99,4 +99,3 @@ int siglongjmp(void *a, int x)
 {
 	return longjmp(a);
 }
-
