@@ -31,6 +31,7 @@ int _link(const char *path1, const char *path2)
 {
 	return link(path1, path2);
 }
+
 int _syslink(const char *path1, const char *path2)
 {
 	return link(path1, path2);

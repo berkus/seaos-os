@@ -47,12 +47,12 @@ int task_stat(unsigned p, struct task_stat *s)
 int select (int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
             struct timeval *timeout)
 {
-  int ret = syscall(56, n, readfds, writefds, exceptfds, timeout);
-  if(ret < 0) {
-	  errno = -ret;
-	  return -1;
-  }
-  return ret;
+	int ret = syscall(56, n, readfds, writefds, exceptfds, timeout);
+	if(ret < 0) {
+		errno = -ret;
+		return -1;
+	}
+	return ret;
 }
 
 int get_nodestr(char *path, char *node)
@@ -81,18 +81,6 @@ int __fxstat(int ver, int fd, struct stat *buf)
 {
 	return fstat(fd, buf);
 }
-/*
-int isatty(int fd)
-{
-	int ret = syscall(SYS_isatty, fd, 0, 0, 0, 0);
-	if(ret < 0)
-	{
-		errno = -ret;
-		return -1;
-	}
-	return ret;
-}
-*/
 
 void __internal_convert_kstat_stat(struct kstat *k, struct stat *buf)
 {
@@ -125,9 +113,7 @@ int stat(const char *path, struct stat *buf)
 	return ret;
 }
 
-int lstat(
-	const char *path,
-	 struct stat *buf)
+int lstat(const char *path, struct stat *buf)
 {
 	struct kstat k;
 	int ret= syscall(SYS_stat, (int)path, (int)&k, 1, 0, 0);
@@ -171,7 +157,6 @@ int fstatfs(int fd, struct statfs *buf)
 	}
 	return ret;
 }
-
 
 int fstat(int fd, struct stat *buf)
 {

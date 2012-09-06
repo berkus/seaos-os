@@ -1,7 +1,5 @@
 /* libc/sys/linux/termios.c - Terminal control */
-
 /* Written 2000 by Werner Almesberger */
-
 
 #include <errno.h>
 #include <sys/types.h>

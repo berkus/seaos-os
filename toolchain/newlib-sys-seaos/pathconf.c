@@ -1,19 +1,19 @@
- #include <sys/times.h>
- #include <sys/time.h>
- #include <time.h>
- #include <errno.h>
- #include <fcntl.h>
- #include <stddef.h>
- #include <unistd.h>
- #include <limits.h>
- #include <sys/stat.h>
- #include "linux_fsinfo.h"
- #include "ksyscall.h"
- #include <stdio.h>
- #include "sys/dirent.h"
+#include <sys/times.h>
+#include <sys/time.h>
+#include <time.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <stddef.h>
+#include <unistd.h>
+#include <limits.h>
+#include <sys/stat.h>
+#include "linux_fsinfo.h"
+#include "ksyscall.h"
+#include <stdio.h>
+#include "sys/dirent.h"
 #include <sys/utsname.h>
-#define LINUX_LINK_MAX	127
 
+#define LINUX_LINK_MAX	127
 static long int posix_pathconf (const char *path, int name);
 
 int uname(struct utsname *name)
@@ -41,22 +41,16 @@ int getdtablesize()
 	return 10000000;
 }
 
-
 /* Get file-specific information about descriptor FD.  */
-long int
-pathconf (path, name)
-     const char *path;
-     int name;
+long int pathconf (const char *path, int name)
 {
-  if (name == _PC_LINK_MAX)
-    {
-
-	    return LINUX_LINK_MAX;
-
-    }
-
-  return posix_pathconf (path, name);
+	if (name == _PC_LINK_MAX)
+	{
+		return LINUX_LINK_MAX;
+	}
+	return posix_pathconf (path, name);
 }
+
 long fpathconf(int fd, int m)
 {
 	char *name = (char *)malloc(1024);
@@ -152,7 +146,6 @@ posix_pathconf (const char *path, int name)
 #else
       return -1;
 #endif
-
     case _PC_ASYNC_IO:
 #ifdef	_POSIX_ASYNC_IO
       {
@@ -176,8 +169,6 @@ posix_pathconf (const char *path, int name)
       return -1;
 #endif
 
-
-
     case _PC_FILESIZEBITS:
 #ifdef FILESIZEBITS
       return FILESIZEBITS;
@@ -185,9 +176,6 @@ posix_pathconf (const char *path, int name)
       /* We let platforms with larger file sizes overwrite this value.  */
       return 32;
 #endif
-
-
-
 
     case _PC_SYMLINK_MAX:
       /* In general there are no limits.  If a system has one it should

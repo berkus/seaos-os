@@ -1,3 +1,6 @@
+/* id.c - deal with various IDs for things. uid, gid, etc. Many of these
+ * functions don't return errors ever. */
+
 #include "ksyscall.h"
 #include <signal.h>
 #include <stdio.h>
@@ -42,7 +45,6 @@ uid_t getuid()
 {
 	return get_uid();
 }
-
 
 uid_t geteuid()
 {
