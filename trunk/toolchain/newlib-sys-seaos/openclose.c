@@ -78,14 +78,3 @@ int dup(int i)
 {
 	return do_dup(i, 0);
 }
-
-int creat(const char *p, mode_t mode)
-{
-	int ret = open(p, O_WRONLY|O_CREAT|O_TRUNC, mode);
-	if(ret < 0)
-	{
-		errno = -ret;
-		return -1;
-	}
-	return ret;
-}
