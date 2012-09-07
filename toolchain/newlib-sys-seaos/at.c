@@ -1,20 +1,32 @@
-#include "ksyscall.h"
-#include <sys/types.h>
-#include <sys/statfs.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/stat.h>
+#include <sys/times.h>
+#include <sys/time.h>
+#include <time.h>
+#include <errno.h>
 #include <fcntl.h>
+#include <stddef.h>
+#include <unistd.h>
+#include <limits.h>
+#include <sys/stat.h>
+#include "linux_fsinfo.h"
+#include "ksyscall.h"
+#include <stdio.h>
+#include "sys/dirent.h"
+#include <sys/utsname.h>
+
 int unlinkat(int fd, const  char * path, int flags)
 {
-	char *newpath = (char *)malloc(1024);
+	char *newpath;
+	if(fd >= 0)
+		newpath = (char *)__internal_get_path_string(fd);
+	else
+		newpath = (char *)malloc(NAME_MAX+2);
 	if(!newpath) {
 		errno = ENOMEM;
 		return -1;
 	}
 	if(path[0] != '/' && fd >= 0) {
 		int ret;
-		if((ret=syscall(37, fd, (int)newpath, 1024-(strlen(path)+2), 0, 0)) < 0) {
+		if((ret=syscall(37, fd, (int)newpath, __internal_calc_path_length(syscall(103, fd, 0, 0, 0, 0)), 0, 0)) < 0) {
 			errno = -ret;
 			free(newpath);
 			return -1;

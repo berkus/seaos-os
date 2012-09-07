@@ -77,8 +77,6 @@ struct dirent
 
   
 struct __dirstream {
-	
-	char name[256];
 	int pos;
 	int fd;
 	struct dirent __d;
