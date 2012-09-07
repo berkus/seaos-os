@@ -38,6 +38,12 @@ int mkdir(const char *argv, mode_t mode)
    bytes long, unless SIZE <= 0, in which case it is as
    big as necessary.  */
 #include <sys/dirent.h>
+
+int get_cwd_pathlength()
+{
+	return syscall(95, 0, 0, 0, 0, 0);
+}
+
 __attribute__ ((weak)) char *getcwd (char *buf, size_t size)
 {
 	errno = 0;
@@ -47,7 +53,8 @@ __attribute__ ((weak)) char *getcwd (char *buf, size_t size)
 	}
 	
 	if(!buf) {
-		if(!size)size = 1024;
+		if(!size) size = get_cwd_pathlength();
+		if(!size) return (char *)0;
 		buf = (char *)malloc(size);
 	}
 	
@@ -60,7 +67,6 @@ __attribute__ ((weak)) char *getcwd (char *buf, size_t size)
 	}
 	return buf;
 }
-
 
 int rmdir(const char *b)
 {
@@ -87,15 +93,8 @@ int getdents (int fd, void *dp, int count)
 DIR *opendir(const char *name)
 {
 	DIR *d = (DIR *)malloc(sizeof(DIR));
-	if(*name == '/')
-		strcpy(d->name, name);
-	else {
-		char *tmp = malloc(1024);
-		sprintf(d->name, "%s/%s", getcwd(tmp, 1024), name);
-		free(tmp);
-	}
 	d->pos=0;
-	int res = open(d->name, 0, 0);
+	int res = open(name, 0, 0);
 	if(res < 0) {
 		free(d);
 		return 0;
@@ -116,7 +115,7 @@ struct dirent *readdir(DIR *d)
 	char name[NAME_MAX+1];
 	memset(name, 0, NAME_MAX+1);
 	struct stat statb;
-	int ret = syscall(97, d->name, d->pos, name, &statb, 0);
+	int ret = syscall(102, d->fd, d->pos, name, &statb, 0);
 	if(ret < 0) {
 		if(ret != -ESRCH) 
 			errno = -ret;

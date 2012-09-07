@@ -51,9 +51,22 @@ long int pathconf (const char *path, int name)
 	return posix_pathconf (path, name);
 }
 
+int __internal_calc_path_length(int depth)
+{
+	if(depth < 0) return -1;
+	return (NAME_MAX+1) * depth + 1;
+}
+
+char *__internal_get_path_string(int fd)
+{
+	int depth = syscall(103, fd, 0, 0, 0, 0);
+	if(depth < 0) return 0;
+	return (char *)malloc(__internal_calc_path_length(depth));
+}
+
 long fpathconf(int fd, int m)
 {
-	char *name = (char *)malloc(1024);
+	char *name = __internal_get_path_string(fd);
 	syscall(37, fd, name, 1024, 0, 0);
 	int ret = pathconf(name, m);
 	int e = errno;
