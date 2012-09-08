@@ -5,7 +5,7 @@
 
 
 #include <unistd.h>
-
+#include <ksyscall.h>
 #include <errno.h>
 int
 _DEFUN(execve, (path, argv, envp),
@@ -18,7 +18,7 @@ _DEFUN(execve, (path, argv, envp),
 
 int _execve(char *path, char **argv, char **env)
 {
-	int ret = syscall(26, (int)path, (int)argv, (int)env, 0, 0);
+	int ret = syscall(SYS_EXECVE, (int)path, (int)argv, (int)env, 0, 0);
 	errno = -ret;
 	return -1;
 }

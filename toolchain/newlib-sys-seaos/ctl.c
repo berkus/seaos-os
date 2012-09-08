@@ -20,7 +20,7 @@ int fcntl(int des, int cmd, ...)
 	va_list args;
 	va_start(args, cmd);
 	
-	int ret = syscall(101, des, cmd, va_arg(args, int), 0, 0);
+	int ret = syscall(SYS_FCNTL, des, cmd, va_arg(args, int), 0, 0);
 	
 	va_end(args);
 	if(ret < 0) {

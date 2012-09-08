@@ -41,7 +41,7 @@ int mkdir(const char *argv, mode_t mode)
 
 int get_cwd_pathlength()
 {
-	return syscall(95, 0, 0, 0, 0, 0);
+	return syscall(SYS_GETCWDLEN, 0, 0, 0, 0, 0);
 }
 
 __attribute__ ((weak)) char *getcwd (char *buf, size_t size)
@@ -60,7 +60,7 @@ __attribute__ ((weak)) char *getcwd (char *buf, size_t size)
 	
 	memset(buf, 0, size);
 	
-	int ret = syscall(36, buf, size, 0, 0, 0);
+	int ret = syscall(SYS_GETPWD, buf, size, 0, 0, 0);
 	if(ret < 0) {
 		errno = -ret;
 		return 0;
@@ -70,7 +70,7 @@ __attribute__ ((weak)) char *getcwd (char *buf, size_t size)
 
 int rmdir(const char *b)
 {
-	int ret= syscall(53,(int) b, 0, 0, 0, 0);
+	int ret= syscall(SYS_RMDIR, (int) b, 0, 0, 0, 0);
 	if(ret < 0)
 	{
 		errno = -ret;
@@ -81,7 +81,7 @@ int rmdir(const char *b)
 
 int getdents (int fd, void *dp, int count)
 {
-	int ret = syscall(57, fd, (int)dp, count, 0, 0);
+	int ret = syscall(SYS_GETDENTS, fd, (int)dp, count, 0, 0);
 	if(ret < 0)
 	{
 		errno = -ret;
@@ -115,7 +115,7 @@ struct dirent *readdir(DIR *d)
 	char name[NAME_MAX+1];
 	memset(name, 0, NAME_MAX+1);
 	struct stat statb;
-	int ret = syscall(102, d->fd, d->pos, name, &statb, 0);
+	int ret = syscall(SYS_DIRSTATFD, d->fd, d->pos, name, &statb, 0);
 	if(ret < 0) {
 		if(ret != -ESRCH) 
 			errno = -ret;

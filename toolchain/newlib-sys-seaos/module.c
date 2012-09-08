@@ -4,7 +4,7 @@
 #include <sys/stat.h>
 #include "ksyscall.h"
 #include <sys/dirent.h>
-
+#include <errno.h>
 int sea_load_module(char *path, char *opts, int flags)
 {
 	int ret = syscall(SYS_LMOD, (int)path, opts, flags, 0, 0);

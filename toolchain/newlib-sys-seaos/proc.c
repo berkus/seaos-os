@@ -1,10 +1,11 @@
 #include "ksyscall.h"
 #include <signal.h>
 #include <stdio.h>
-
+#include <errno.h>
+#include <errno.h>
 int waitpid(int pid, int *stat, int opt)
 {
-	int ret = syscall(104, pid, (int)stat, opt, 0, 0);
+	int ret = syscall(SYS_WAITPID, pid, (int)stat, opt, 0, 0);
 	if(ret < 0) {
 		errno = -ret;
 		return -1;
@@ -14,7 +15,7 @@ int waitpid(int pid, int *stat, int opt)
 
 int wait(int *stat)
 {
-	int ret = syscall(104, -1, (int)stat, 0, 0, 0);
+	int ret = syscall(SYS_WAITPID, -1, (int)stat, 0, 0, 0);
 	if(ret < 0) {
 		errno = -ret;
 		return -1;
@@ -24,12 +25,12 @@ int wait(int *stat)
 
 int waitagain()
 {
-	return syscall(127, 0, 0, 0, 0, 0);
+	return syscall(SYS_WAITAGAIN, 0, 0, 0, 0, 0);
 }
 
 int sbrk (int nbytes)
 {
-	int ret = syscall(SYS_sbrk, nbytes, 0, 0, 0, 0);
+	int ret = syscall(SYS_SBRK, nbytes, 0, 0, 0, 0);
 	if(ret < 0) {
 		errno = -ret;
 		return -1;
@@ -39,7 +40,7 @@ int sbrk (int nbytes)
 
 unsigned alarm(unsigned s)
 {
-	int ret = syscall(55, s, 0, 0, 0, 0);
+	int ret = syscall(SYS_ALARM, s, 0, 0, 0, 0);
 	if(ret < 0)
 	{
 		errno = -ret;
@@ -50,7 +51,7 @@ unsigned alarm(unsigned s)
 
 mode_t umask(mode_t mode)
 {
-	int ret = syscall(108, mode, 0, 0, 0, 0);
+	int ret = syscall(SYS_UMASK, mode, 0, 0, 0, 0);
 	if(ret < 0) {
 		errno = -ret;
 		return -1;

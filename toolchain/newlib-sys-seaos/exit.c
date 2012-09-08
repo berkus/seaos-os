@@ -4,7 +4,7 @@
 
 void _exit(int z)
 {
-	syscall(SYS_exit, z, 0, 0, 0, 0);
+	syscall(SYS_EXIT, z, 0, 0, 0, 0);
 	for(;;);
 }
 

@@ -1,6 +1,6 @@
 #include "ksyscall.h"
 #include <sys/stat.h>
-
+#include <errno.h>
 int syscall(int num, int a, int b, int c, int d, int e)
 {
 	errno = 0;

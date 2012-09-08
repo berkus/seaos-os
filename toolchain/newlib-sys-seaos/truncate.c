@@ -5,9 +5,10 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <errno.h>
 int ftruncate(int f, off_t len)
 {
-	int ret = syscall(110, f, len, 0, 0, 0);
+	int ret = syscall(SYS_FTRUNCATE, f, len, 0, 0, 0);
 	if(ret < 0)
 	{
 		errno = -ret;

@@ -4,10 +4,10 @@
 #include "ksyscall.h"
 #include <signal.h>
 #include <stdio.h>
-
+#include <errno.h>
 int getpid()
 {
-	int ret = syscall(31, 0, 0, 0, 0, 0);
+	int ret = syscall(SYS_GETPID, 0, 0, 0, 0, 0);
 	if(ret < 0) {
 		errno = -ret;
 		return -1;
@@ -27,7 +27,7 @@ int getgrgid()
 
 int setpgid(pid_t a, pid_t b)
 {
-	int ret = syscall(61, a, b, 0, 0, 0);
+	int ret = syscall(SYS_SETPGID, a, b, 0, 0, 0);
 	if(ret < 0)
 	{
 		errno=-ret;
@@ -123,7 +123,7 @@ int getppid()
 
 pid_t setsid()
 {
-	int ret = syscall(60, 0, 0, 0, 0, 0);
+	int ret = syscall(SYS_SETSID, 0, 0, 0, 0, 0);
 	if(ret < 0) {
 		errno=-ret;
 		return -1;
@@ -133,7 +133,7 @@ pid_t setsid()
 
 pid_t getsid(pid_t p)
 {
-	int ret = syscall(60, 1, p, 0, 0, 0);
+	int ret = syscall(SYS_SETSID, 1, p, 0, 0, 0);
 	if(ret < 0) {
 		errno=-ret;
 		return -1;

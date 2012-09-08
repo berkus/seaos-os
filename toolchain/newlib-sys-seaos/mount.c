@@ -4,7 +4,7 @@
 #include <sys/stat.h>
 #include "ksyscall.h"
 #include <sys/dirent.h>
-
+#include <errno.h>
 int sea_mount_filesystem(char *node, char *dir, char *fsname, char *opts, int flags)
 {
 	int ret = syscall(SYS_MOUNT2, node, dir, fsname, opts, flags);

@@ -5,6 +5,8 @@
 #include "ksyscall.h"
 #include <sys/dirent.h>
 #include <sys/reboot.h>
+#include <errno.h>
+#include <errno.h>
 __attribute__ ((weak)) int optreset=0;
 
 int __this_is_seaos__()
