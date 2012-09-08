@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <errno.h>
 int makedev(int maj, int min)
 {
 	#define GETDEV(maj, min) (maj*256+min)
@@ -18,7 +19,7 @@ int mkfifo (const char *path, mode_t mode)
 
 int mknod(const char *path, mode_t m, dev_t d)
 {
-	int ret= syscall(105, (int)path, m, d, 0, 0);
+	int ret= syscall(SYS_MKNOD, (int)path, m, d, 0, 0);
 	if(ret < 0)
 	{
 		errno = -ret;
@@ -29,7 +30,7 @@ int mknod(const char *path, mode_t m, dev_t d)
 
 int sys_pipe(int *f)
 {
-	int ret = syscall(83, (int)f, 0, 0, 0, 0);
+	int ret = syscall(SYS_PIPE, (int)f, 0, 0, 0, 0);
 	if(ret < 0)
 	{
 		errno = -ret;

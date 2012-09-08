@@ -6,6 +6,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <sys/time.h>
+#include <errno.h>
 struct kstat {
 	unsigned short	st_dev;
 	unsigned long	st_ino;
@@ -47,7 +48,7 @@ int task_stat(unsigned p, struct task_stat *s)
 int select (int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
             struct timeval *timeout)
 {
-	int ret = syscall(56, n, readfds, writefds, exceptfds, timeout);
+	int ret = syscall(SYS_SELECT, n, readfds, writefds, exceptfds, timeout);
 	if(ret < 0) {
 		errno = -ret;
 		return -1;
@@ -57,7 +58,7 @@ int select (int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
 
 int get_nodestr(char *path, char *node)
 {
-	int ret = syscall(111, path, node, 0, 0, 0);
+	int ret = syscall(SYS_GETNODESTR, path, node, 0, 0, 0);
 	if(ret < 0)
 	{
 		errno = -ret;
@@ -68,7 +69,7 @@ int get_nodestr(char *path, char *node)
 
 int access(const char *path, int mode)
 {
-	int ret = syscall(99, (int)path, mode, 0, 0, 0);
+	int ret = syscall(SYS_ACCESS, (int)path, mode, 0, 0, 0);
 	if(ret < 0)
 	{
 		errno = -ret;
@@ -103,7 +104,7 @@ int stat(const char *path, struct stat *buf)
 {
 	
 	struct kstat k;
-	int ret= syscall(SYS_stat, (int)path, (int)&k, 0, 0, 0);
+	int ret= syscall(SYS_STAT, (int)path, (int)&k, 0, 0, 0);
 	if(ret < 0)
 	{
 		errno = -ret;
@@ -116,7 +117,7 @@ int stat(const char *path, struct stat *buf)
 int lstat(const char *path, struct stat *buf)
 {
 	struct kstat k;
-	int ret= syscall(SYS_stat, (int)path, (int)&k, 1, 0, 0);
+	int ret= syscall(SYS_STAT, (int)path, (int)&k, 1, 0, 0);
 	if(ret < 0)
 	{
 		errno = -ret;
@@ -150,7 +151,7 @@ int fstatvfs(int fd, struct statfs *buf)
 
 int fstatfs(int fd, struct statfs *buf)
 {
-	int ret = syscall(121, fd, (int)buf, 0, 0, 0);
+	int ret = syscall(SYS_POSFSSTAT, fd, (int)buf, 0, 0, 0);
 	if(ret < 0) {
 		errno = -ret;
 		return -1;
@@ -161,7 +162,7 @@ int fstatfs(int fd, struct statfs *buf)
 int fstat(int fd, struct stat *buf)
 {
 	struct kstat k;
-	int ret= syscall(SYS_fstat, fd, (int)&k, 0, 0, 0);
+	int ret= syscall(SYS_FSTAT, fd, (int)&k, 0, 0, 0);
 	if(ret < 0)
 	{
 		errno = -ret;

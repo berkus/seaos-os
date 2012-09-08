@@ -6,6 +6,7 @@
 #include <sys/stat.h>
 #include <stdarg.h>
 #include <fcntl.h>
+#include <errno.h>
 int open (const char *buf, int flags, ...)
 {
 	va_list vargs;
@@ -16,7 +17,7 @@ int open (const char *buf, int flags, ...)
 	if(flags & O_CREAT)
 		mode = va_arg(vargs, mode_t);
 	va_end(vargs);
-	int ret = syscall(SYS_open, (int)buf, flags, (int)mode, 0, 0);
+	int ret = syscall(SYS_OPEN, (int)buf, flags, (int)mode, 0, 0);
 	if(ret < 0) {
 		errno = -ret;
 		return -1;
@@ -26,7 +27,7 @@ int open (const char *buf, int flags, ...)
 
 int close (int fd)
 {
-	int ret = syscall(SYS_close, fd, 0, 0, 0, 0);
+	int ret = syscall(SYS_CLOSE, fd, 0, 0, 0, 0);
 	if(ret < 0) {
 		errno=-ret;
 		return -1;
@@ -36,7 +37,7 @@ int close (int fd)
 
 int do_dup(int i, int f)
 {
-	int ret = syscall(16, i, f, 0, 0, 0);
+	int ret = syscall(SYS_DUP2, i, f, 0, 0, 0);
 	if(ret < 0)
 	{
 		errno = -ret;

@@ -5,9 +5,10 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <errno.h>
 int fsync(int f)
 {
-	int ret = syscall(54, f, 0, 0, 0, 0);
+	int ret = syscall(SYS_FSYNC, f, 0, 0, 0, 0);
 	if(ret < 0)
 	{
 		errno = -ret;
@@ -18,7 +19,7 @@ int fsync(int f)
 
 void sync()
 {
-	syscall(52, 0, 0, 0, 0, 0);
+	syscall(SYS_SYNC, 0, 0, 0, 0, 0);
 }
 
 int fdatasync(int file)

@@ -20,7 +20,7 @@
 #include <errno.h>
 #include <signal.h>
 #include "ksyscall.h"
-
+#include <errno.h>
 #define sigaddset(what,sig) (*(what) |= (1<<(sig)), 0)
 #define sigdelset(what,sig) (*(what) &= ~(1<<(sig)), 0)
 #define sigemptyset(what)   (*(what) = 0, 0)
@@ -57,7 +57,7 @@ __sighandler_t signal (int sig, __sighandler_t handler)
 
 int sigprocmask(int how, const sigset_t *set, sigset_t *oset)
 {
-	int ret = syscall(109, how, set, oset, 0, 0);
+	int ret = syscall(SYS_SIGPROCMASK, how, set, oset, 0, 0);
 	if(ret < 0) {
 		errno = -ret;
 		return -1;
@@ -67,13 +67,13 @@ int sigprocmask(int how, const sigset_t *set, sigset_t *oset)
 
 int pause()
 {
-	syscall(12, getpid(), SIGISLEEP, 0, 0, 0);
+	syscall(SYS_SIGNAL, getpid(), SIGISLEEP, 0, 0, 0);
 	return 0;
 }
 
 int kill(int pid, int sig)
 {
-	int ret = syscall(SYS_kill, pid, sig, 0, 0, 0);
+	int ret = syscall(SYS_SIGNAL, pid, sig, 0, 0, 0);
 	if(ret < 0) {
 		errno = -ret;
 		return -1;
@@ -82,7 +82,7 @@ int kill(int pid, int sig)
 }
 
 int sigaction(int sig, const struct sigaction *act, struct sigaction *oact) {
-	int ret = syscall(98, sig, (int)act, (int)oact, 0, 0);
+	int ret = syscall(SYS_SIGACT, sig, (int)act, (int)oact, 0, 0);
 	if(ret < 0) {
 		errno = -ret;
 		return -1;

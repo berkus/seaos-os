@@ -18,7 +18,7 @@ static long int posix_pathconf (const char *path, int name);
 
 int uname(struct utsname *name)
 {
-	int ret = syscall(116, (int)name, 0, 0, 0, 0);
+	int ret = syscall(SYS_UNAME, (int)name, 0, 0, 0, 0);
 	if(ret < 0) {
 		errno = -ret;
 		return -1;
@@ -28,7 +28,7 @@ int uname(struct utsname *name)
 
 long sysconf(int n)
 {
-	long ret = syscall(59, n, 0, 0, 0, 0);
+	long ret = syscall(SYS_SYSCONF, n, 0, 0, 0, 0);
 	if(ret < 0) {
 		errno = EINVAL;
 		return -1;
@@ -59,7 +59,7 @@ int __internal_calc_path_length(int depth)
 
 char *__internal_get_path_string(int fd)
 {
-	int depth = syscall(103, fd, 0, 0, 0, 0);
+	int depth = syscall(SYS_GETDEPTH, fd, 0, 0, 0, 0);
 	if(depth < 0) return 0;
 	return (char *)malloc(__internal_calc_path_length(depth));
 }
@@ -67,7 +67,7 @@ char *__internal_get_path_string(int fd)
 long fpathconf(int fd, int m)
 {
 	char *name = __internal_get_path_string(fd);
-	syscall(37, fd, name, 1024, 0, 0);
+	syscall(SYS_GETPATH, fd, name, 1024, 0, 0);
 	int ret = pathconf(name, m);
 	int e = errno;
 	free(name);

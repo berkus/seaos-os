@@ -1,7 +1,7 @@
 #include "ksyscall.h"
 #include <signal.h>
 #include <stdio.h>
-
+#include <errno.h>
 pid_t vfork(void)
 {
 	pid_t pid;
@@ -23,7 +23,7 @@ pid_t vfork(void)
 
 int fork()
 {
-	int ret = syscall(2, 0, 0, 0, 0, 0);
+	int ret = syscall(SYS_FORK, 0, 0, 0, 0, 0);
 	if(ret < 0) {
 		errno = -ret;
 		return -1;

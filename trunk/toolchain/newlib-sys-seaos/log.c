@@ -6,9 +6,10 @@
 #include <sys/stat.h>
 #include "ksyscall.h"
 #include <sys/dirent.h>
+#include <errno.h>
 int sys_syslog(int level, char *buf, int len)
 {
-	int ret = syscall(120, level, buf, len, 0, 0);
+	int ret = syscall(SYS_SYSLOG, level, buf, len, 0, 0);
 	if(ret < 0)
 	{
 		errno=-ret;
@@ -36,15 +37,15 @@ void syslog(int lev, const char *fmt, ...)
 
 void openlog(const char *i, int o, int f)
 {
-	syscall(120, o, i, f, 1, 0);
+	syscall(SYS_SYSLOG, o, i, f, 1, 0);
 }
 
 void closelog(void)
 {
-	syscall(120, 0, 0, 0, 2, 0);
+	syscall(SYS_SYSLOG, 0, 0, 0, 2, 0);
 }
 
 void setlogmask(int mask)
 {
-	syscall(120, mask, 0, 0, 3, 0);
+	syscall(SYS_SYSLOG, mask, 0, 0, 3, 0);
 }

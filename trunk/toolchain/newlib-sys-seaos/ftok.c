@@ -21,7 +21,7 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
-
+#include <errno.h>
 key_t
 ftok (pathname, proj_id)
      const char *pathname;

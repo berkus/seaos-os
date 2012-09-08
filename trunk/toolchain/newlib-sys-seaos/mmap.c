@@ -22,7 +22,7 @@ void *__mmap(void *addr, size_t len, int prot, int flags, int fildes, off_t off)
 	} c;
 	c.len = len;
 	c.off = off;
-	unsigned ret = syscall(50, (unsigned)addr, (unsigned)&c, prot, flags, fildes);
+	unsigned ret = syscall(SYS_MMAP, (unsigned)addr, (unsigned)&c, prot, flags, fildes);
 	if(ret < 0x1000) {
 		/* Is an error code */
 		errno = ret;
@@ -33,7 +33,7 @@ void *__mmap(void *addr, size_t len, int prot, int flags, int fildes, off_t off)
 
 int __munmap(void *addr, size_t sz)
 {
-	int ret = syscall(51, (unsigned)addr, sz, 0, 0, 0);
+	int ret = syscall(SYS_MUNMAP, (unsigned)addr, sz, 0, 0, 0);
 	if(ret < 0)
 	{
 		errno = -ret;

@@ -16,7 +16,7 @@
 struct hostent ___internal_hostent;
 struct hostent *gethostbyaddr(const void *addr, socklen_t len, int type)
 {
-	int ret = syscall(117, (int)&___internal_hostent, (int)addr, (int)len, type, 0);
+	int ret = syscall(SYS_GETHOST, (int)&___internal_hostent, (int)addr, (int)len, type, 0);
 	if(ret < 0)
 	{
 		errno = -ret;
@@ -27,7 +27,7 @@ struct hostent *gethostbyaddr(const void *addr, socklen_t len, int type)
 
 struct hostent *gethostbyname(const char *name)
 {
-	int ret = syscall(117, (int)&___internal_hostent, 0, 0, 0, (int)name);
+	int ret = syscall(SYS_GETHOST, (int)&___internal_hostent, 0, 0, 0, (int)name);
 	if(ret < 0)
 	{
 		errno = -ret;
@@ -38,7 +38,7 @@ struct hostent *gethostbyname(const char *name)
 
 int gethostname(char *name, size_t len)
 {
-	int ret = syscall(114, name, len, 0, 0, 0);
+	int ret = syscall(SYS_GETHOSTNAME, name, len, 0, 0, 0);
 	if(ret < 0)
 	{
 		errno = -ret;
@@ -49,13 +49,13 @@ int gethostname(char *name, size_t len)
 
 void endservent(void)
 {
-	syscall(119, 0, 0, 0, 0, 0);
+	syscall(SYS_SETSERV, 0, 0, 0, 0, 0);
 }
 
 struct servent ___internal_servent;
 struct servent *getservbyname(const char *name, const char *proto)
 {
-	int ret = syscall(118, 0, name, proto, (int)&___internal_servent, 0);
+	int ret = syscall(SYS_GETSERV, 0, name, proto, (int)&___internal_servent, 0);
 	if(ret < 0)
 	{
 		errno = -ret;
@@ -66,7 +66,7 @@ struct servent *getservbyname(const char *name, const char *proto)
 
 struct servent *getservbyport(int port, const char *proto)
 {
-		int ret = syscall(118, port, 0, proto, (int)&___internal_servent, 0);
+		int ret = syscall(SYS_GETSERV, port, 0, proto, (int)&___internal_servent, 0);
 	if(ret < 0)
 	{
 		errno = -ret;
@@ -77,7 +77,7 @@ struct servent *getservbyport(int port, const char *proto)
 
 struct servent *getservent(void)
 {
-	int ret = syscall(118, 0, 0, 0, (int)&___internal_servent, 0);
+	int ret = syscall(SYS_GETSERV, 0, 0, 0, (int)&___internal_servent, 0);
 	if(ret < 0)
 	{
 		errno = -ret;
@@ -88,7 +88,7 @@ struct servent *getservent(void)
 
 void setservent(int stayopen)
 {
-	syscall(119, 1, stayopen, 0, 0, 0);
+	syscall(SYS_SETSERV, 1, stayopen, 0, 0, 0);
 }
 
 unsigned long   htonl (unsigned long a){return a;}
