@@ -27,11 +27,9 @@
 #include <termios.h>
 
 /* Return the output baud rate stored in *TERMIOS_P.  */
-speed_t
-cfgetospeed (termios_p)
-     const struct termios *termios_p;
+speed_t cfgetospeed(const struct termios *termios_p)
 {
-  return termios_p->c_cflag & (CBAUD | CBAUDEX);
+	return termios_p->c_cflag & (CBAUD | CBAUDEX);
 }
 
 void cfmakeraw(struct termios *termios_p)
