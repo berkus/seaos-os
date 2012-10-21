@@ -8,9 +8,29 @@ if [ "$tools" == "" ]; then
 fi
 echo -n "$tools" > .toolchain
 
+echo -n "enter a path to a loop device that I should use: "
+read loop
+test -e $loop
+if [ "$?" != "0" ]; then
+	echo "Device $loop doesn't exist!"
+	exit 0
+fi
+if [ "$loop" == "" ]; then
+	echo "You must enter a loop device!"
+	exit 0
+fi
+echo -n "$loop" > .loop
+
 sh tools/update_repos.sh
+#sudo mkdir /mnt-seaos 2>/dev/null
 cd system
 sh ./configure
 cd ..
 
-echo -e "if you don't want to run the hard drive generation commands as root, you'll need to add a line to /etc/fstab to allow me to use and mount a loop device without root permission. That line would be:\nhd.img\t`pwd`/mnt\tauto\trw,user"
+echo -e "if you don't want to run the hard drive generation commands as root, you'll need to add a line to /etc/fstab to allow me to use and mount a loop device without root permission. That line would be:\n$loop\t`pwd`/mnt\tauto\trw,user"
+if [ "`whoami`" != "root" ]; then
+groups | grep `ls -l $loop | awk '{ print $4 }'` &>/dev/null
+if [ $? != 0 ]; then
+	echo "loop device $loop doesn't exist or you don't have permission for it!"
+fi
+fi

@@ -1,5 +1,5 @@
 #!/bin/sh
-loop=`losetup -f`
+loop=`cat .loop`
 
 rm hd.img 2>/dev/null
 echo -n "processing hd.img..."
