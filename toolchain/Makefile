@@ -44,7 +44,7 @@ compile_install_tools1:
 	@cd build-binutils; make MAKEINFO=makeinfo
 	@echo done!
 	@echo -n "Installing binutils... "
-	@cd build-binutils; sudo make install
+	@cd build-binutils; make install
 
 compile_install_tools2:
 	@echo -e -n "\nOkay, time to do gcc. Configuring... "
@@ -54,13 +54,13 @@ compile_install_tools2:
 	@cd build-gcc; make all-gcc -j2
 	@echo done!
 	@echo -n "Installing gcc... "
-	@cd build-gcc; sudo make install-gcc
+	@cd build-gcc; make install-gcc
 	@echo done!
 	@echo Tools have been installed!
 
 compile_library_full:
 	@rm -rf newlib-1.20.0 build-newlib/*
-	@make -s patch_newlib2
+	@make -s patch_newlib
 	@echo -n -e "Configuring newlib... "
 	@cd build-newlib; ../newlib-1.20.0/configure -q --target=$(TARGET) --prefix=$(PREFIX)
 	@echo done!
@@ -80,12 +80,12 @@ compile_ncurses:
 
 install_ncurses:
 	@echo "Installing ncurses..."
-	@cd ncurses-5.9/build; su -c "make install"
-	@su -c "cp ${INSTALL_LOC}/${TARGET}/include/ncurses/* ${INSTALL_LOC}/${TARGET}/include/"
+	@cd ncurses-5.9/build; make install
+	@cp ${INSTALL_LOC}/${TARGET}/include/ncurses/* ${INSTALL_LOC}/${TARGET}/include/
 	
 install_library:
 	@echo -n "Installing newlib... "
-	@cd build-newlib; sudo PATH=$$PATH:${INSTALL_LOC} make install
+	@cd build-newlib; PATH=$$PATH:${INSTALL_LOC} make install
 	@echo done!
 
 clean:
