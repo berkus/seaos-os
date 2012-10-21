@@ -3,10 +3,10 @@ include system/make.inc
 all: build
 
 apps_port:
-	@cd apps/porting && sh install_ported.sh all
+	@PATH=$$PATH:`cat .toolchain` cd apps/porting && sh install_ported.sh all
 
 apps_seaos:
-	@cd apps/porting && sh install_ported.sh seaos-util
+	@PATH=$$PATH:`cat .toolchain` cd apps/porting && sh install_ported.sh seaos-util
 
 newhd:
 	@zsh tools/chd.sh
@@ -17,7 +17,7 @@ toolchain/built:
 	@cd toolchain && sh install_toolchain.sh
 
 system/skernel:
-	@PATH=$$PATH:/usr/local/cross/bin $(MAKE) -j2 -s -C system all
+	@PATH=$$PATH:`cat .toolchain` $(MAKE) -j2 -s -C system all
 
 man:
 	sh tools/gen_man.sh
@@ -30,10 +30,10 @@ build: system/skernel
 	@cat build_number
 	@echo updating hd image...
 	@sh tools/open_hdimage.sh
-	@sudo mkdir -p ./mnt/sys/modules-${KERNEL_VERSION}/
-	@sudo cp -rf system/drivers/built/* ./mnt/sys/modules-${KERNEL_VERSION}/
-	@sudo cp -rf system/initrd.img ./mnt/sys/initrd
-	@sudo cp -rf system/skernel ./mnt/sys/kernel
+	@mkdir -p ./mnt/sys/modules-${KERNEL_VERSION}/
+	@cp -rf system/drivers/built/* ./mnt/sys/modules-${KERNEL_VERSION}/
+	@cp -rf system/initrd.img ./mnt/sys/initrd
+	@cp -rf system/skernel ./mnt/sys/kernel
 	@rm system/skernel
 	@sh tools/close_hdimage.sh
 

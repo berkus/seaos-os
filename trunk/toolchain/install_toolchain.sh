@@ -13,7 +13,7 @@ fi
 
 read INSTALL_LOC < ../.toolchain
 
-sudo rm -rf $INSTALL_LOC
+rm -rf $INSTALL_LOC/* &>/dev/null
 export INSTALL_LOC
 echo "Installing toolchain..."
 test -e build-binutils
@@ -48,7 +48,7 @@ if [ $? != 0 ]; then
 	echo "Error in gcc part 2 install"
 	exit 1
 fi
-sudo make install-target-libgcc
+make install-target-libgcc
 cd ..
 echo "1" > built
 sh ./install_extras.sh
