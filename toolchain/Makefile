@@ -1,6 +1,5 @@
 # Makefile for the toolchain
-
-INSTALL_LOC=/usr/local/cross-seaos/
+# INSTALL_LOC should be provided by the script
 PREFIX=$(INSTALL_LOC)
 TARGET=i586-pc-seaos
 
@@ -82,11 +81,11 @@ compile_ncurses:
 install_ncurses:
 	@echo "Installing ncurses..."
 	@cd ncurses-5.9/build; su -c "make install"
-	@su -c "cp /usr/local/cross-seaos/i586-pc-seaos/include/ncurses/* /usr/local/cross-seaos/i586-pc-seaos/include/"
+	@su -c "cp ${INSTALL_LOC}/${TARGET}/include/ncurses/* ${INSTALL_LOC}/${TARGET}/include/"
 	
 install_library:
 	@echo -n "Installing newlib... "
-	@cd build-newlib; sudo PATH=$$PATH:/usr/local/cross/bin make install
+	@cd build-newlib; sudo PATH=$$PATH:${INSTALL_LOC} make install
 	@echo done!
 
 clean:
