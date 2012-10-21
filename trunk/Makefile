@@ -30,10 +30,10 @@ build: system/skernel
 	@cat build_number
 	@echo updating hd image...
 	@sh tools/open_hdimage.sh
-	@sudo mkdir -p /mnt-seaos/sys/modules-${KERNEL_VERSION}/
-	@sudo cp -rf system/drivers/built/* /mnt-seaos/sys/modules-${KERNEL_VERSION}/
-	@sudo cp -rf system/initrd.img /mnt-seaos/sys/initrd
-	@sudo cp -rf system/skernel /mnt-seaos/sys/kernel
+	@sudo mkdir -p ./mnt/sys/modules-${KERNEL_VERSION}/
+	@sudo cp -rf system/drivers/built/* ./mnt/sys/modules-${KERNEL_VERSION}/
+	@sudo cp -rf system/initrd.img ./mnt/sys/initrd
+	@sudo cp -rf system/skernel ./mnt/sys/kernel
 	@rm system/skernel
 	@sh tools/close_hdimage.sh
 

@@ -1,9 +1,16 @@
 #!/bin/sh
 
+echo -ne "please enter a path to store the generated toolchain:\n</path/to/toolchain>: "
+read tools
+if [ "$tools" == "" ]; then
+	echo "You must enter a toolchain path!"
+	exit 0
+fi
+echo -n "$tools" > .toolchain
+
 sh tools/update_repos.sh
-sudo mkdir /mnt-seaos 2>/dev/null
 cd system
 sh ./configure
 cd ..
 
-make newhd
+echo -e "if you don't want to run the hard drive generation commands as root, you'll need to add a line to /etc/fstab to allow me to use and mount a loop device without root permission. That line would be:\nhd.img\t`pwd`/mnt\tauto\trw,user"

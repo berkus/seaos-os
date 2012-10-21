@@ -1,6 +1,5 @@
 #!/bin/sh
-sudo /sbin/losetup -d /dev/loop1 2> /dev/null
-sudo umount /mnt 2> /dev/null
+loop=`losetup -f`
 
 rm hd.img 2>/dev/null
 echo -n "processing hd.img..."
@@ -9,40 +8,39 @@ dd if=/dev/zero of=hd.img bs=1024 count=1 seek=999999 2> /dev/null
 echo -n "partition..."
 (echo "o\nn\np\n1\n2048\n\na\n1\nw\n" | fdisk -u -S63 -H16 hd.img) &>/dev/null
 
-sudo /sbin/losetup -o1048576 /dev/loop1 hd.img
+losetup -o1048576 $loop hd.img
 echo -n "format..."
-sudo mke2fs -q -I128 -b1024 /dev/loop1  > /dev/null
-echo -n "install grub..."
-sudo mount /dev/loop1 /mnt-seaos
-sudo mkdir -p /mnt-seaos/boot/grub
-sudo cp -r data/boot/grub/* /mnt-seaos/boot/grub/
-sudo umount /mnt-seaos
+mke2fs -q -I128 -b1024 $loop  > /dev/null
+losetup -d $loop
 
-sudo /sbin/losetup -d /dev/loop1
-#sudo /sbin/losetup /dev/loop1 hd.img
+echo -n "install grub..."
+sh ./tools/open_hdimage.sh
+mkdir -p ./mnt/boot/grub
+cp -r data/boot/grub/* ./mnt/boot/grub/
+sh ./tools/close_hdimage.sh
 
 (echo "device (hd0) hd.img\nroot (hd0,0)\nembed /boot/grub/e2fs_stage1_5 (hd0)\ninstall --stage2=data/boot/grub/stage2 /boot/grub/stage1 (hd0) (hd0)1+17 p (hd0,0)/boot/grub/stage2 /boot/grub/menu.lst\nquit" | grub --device-map data/boot/grub/device.map --batch) > /dev/null
-#sudo /sbin/losetup -d /dev/loop1
+
 echo ok
 echo processing hd2.img..
 dd if=/dev/zero of=hd2.img bs=1024 count=1 2> /dev/null
 dd if=/dev/zero of=hd2.img bs=1024 count=1 seek=100000 2> /dev/null
-yes | (sudo /sbin/mke2fs -q -I128 -b1024 hd2.img) > /dev/null
+yes | (/sbin/mke2fs -q -I128 -b1024 hd2.img) > /dev/null
 sh ./tools/open_hdimage.sh
 echo copying apps/data/ to hd.img...
-sudo cp -f -r apps/data/* /mnt-seaos/
-sudo rm -rf `sudo find /mnt-seaos -name man`
+cp -f -r apps/data/* ./mnt
+rm -rf `find ./mnt -name man`
 echo copying data/ to hd.img...
-sudo cp -f -r data/* /mnt-seaos/
-sudo mkdir -p /mnt-seaos/usr/man
-sudo cp -rf tools/man_gen_tmp/text/* /mnt-seaos/usr/man/
+cp -f -r data/* ./mnt/
+mkdir -p ./mnt/usr/man
+cp -rf tools/man_gen_tmp/text/* ./mnt/usr/man/
 echo copying source code to hd.img...
-sudo mkdir -p /mnt-seaos/usr/src
-sudo cp -rf system /mnt-seaos/usr/src/sea
-sudo cp -rf apps/seaos-util /mnt-seaos/usr/src/seaos-util
-sudo make -C /mnt-seaos/usr/src/sea clean
-sudo rm /mnt-seaos/usr/src/sea/tools/confed /mnt-seaos/usr/src/sea/tools/mkird
-sudo rm -rf `sudo find /mnt-seaos -name .svn`
-sudo rm -f `sudo find /mnt-seaos -name .directory`
+mkdir -p ./mnt/usr/src
+cp -rf system ./mnt/usr/src/sea
+cp -rf apps/seaos-util ./mnt/usr/src/seaos-util
+make -C ./mnt/usr/src/sea clean
+rm ./mnt/usr/src/sea/tools/confed ./mnt/usr/src/sea/tools/mkird
+rm -rf `find ./mnt -name .svn`
+rm -f `find ./mnt -name .directory`
 
 sh ./tools/close_hdimage.sh

@@ -1,3 +1,4 @@
 #!/bin/sh
 
-sudo umount /dev/loop1 2> /dev/null
+sudo umount `cat .loop` 2> /dev/null
+rm .loop
