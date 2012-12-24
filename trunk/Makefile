@@ -24,6 +24,12 @@ man:
 
 hd.img: newhd
 
+config:
+	@make -s -C system config
+
+defconfig:
+	@make -s -C system defconfig
+
 build: system/skernel
 	@sh tools/inc_build.sh
 	@echo -n "build: "
@@ -42,9 +48,9 @@ clean:
 	@rm hd.img hd2.img
 
 test_t:
-	@qemu-system-i386 -serial stdio -smp 1 -drive file=hd.img,if=ide  -localtime -m 1024 -boot=disk
+	@qemu -m 256 -serial stdio -smp 1 -drive file=hd.img,if=ide,cache=none 
 
-test:
+test_1:
 	@-sudo mkdir /tmp_t 2> /dev/null
 	@sudo mount -t tmpfs -o size=2g tmpfs /tmp_t
 	@cp hd.img /tmp_t/hd.img
