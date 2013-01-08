@@ -6,7 +6,7 @@ fi
 
 login </dev/tty1 >/dev/tty1 2>/dev/tty1 &
 login </dev/tty2 >/dev/tty2 2>/dev/tty2 &
-mon </dev/tty8 >/dev/tty8 2>/dev/tty8 &
+# mon </dev/tty8 >/dev/tty8 2>/dev/tty8 &
 
 
 . /etc/rc/rand start

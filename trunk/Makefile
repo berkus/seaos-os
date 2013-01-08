@@ -40,7 +40,7 @@ build: system/skernel
 	@cp -rf system/drivers/built/* ./mnt/sys/modules-${KERNEL_VERSION}/
 	@cp -rf system/initrd.img ./mnt/sys/initrd
 	@cp -rf system/skernel ./mnt/sys/kernel
-	@rm system/skernel
+	@mv system/skernel skernel
 	@sh tools/close_hdimage.sh
 
 clean:
